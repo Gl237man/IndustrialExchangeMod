@@ -15,8 +15,10 @@ public class IexchangeMod
 {
     public static final String MODID = "industrialexchange";
     public static final String VERSION = "0.1";
+    //Обьявлени жидкостей
     public Fluid LEnergyFluid = new Fluid("LiquidEnergy");
     public Fluid LMatterFluid = new Fluid("LiquidMatter");
+    //Обьявление блоков
     public Block lEnergyFluidBlock;
     public Block lMatterFluidBlock;
     
@@ -29,23 +31,28 @@ public class IexchangeMod
     	InitFuilds();
     	
     }
+    //Регистрация жидкостей блоков жидкостей и ведерок
     private void InitFuilds()
     {
-    	LEnergyFluid.setLuminosity(15);
-    	LEnergyFluid.setViscosity(500);
+    	LEnergyFluid.setLuminosity(15); //Светимость жидкости
+    	LEnergyFluid.setViscosity(500); //Вязкость жидкости чем меньше тем текучей
     	
-    	LMatterFluid.setLuminosity(15);
-    	LMatterFluid.setViscosity(500);
+    	LMatterFluid.setLuminosity(15); //Светимость жидкости
+    	LMatterFluid.setViscosity(500); //Вязкость жидкости чем меньше тем текучей
     	
+    	//Регистрация жидкостей в реестре жидкостей
     	FluidRegistry.registerFluid(LEnergyFluid);
     	FluidRegistry.registerFluid(LMatterFluid);
     	
+    	//Обявление блоков жидкостей
     	lEnergyFluidBlock = new LEnergyFluidBlock(LEnergyFluid, Material.water).setBlockName("LEnergyFluid");
     	lMatterFluidBlock = new LMatterFluidBlock(LMatterFluid, Material.water).setBlockName("LMatterFluid");
     	
+    	//Добовление блоков жидкостей в реестр жидкостей
     	GameRegistry.registerBlock(lEnergyFluidBlock, MODID + "_" + lEnergyFluidBlock.getUnlocalizedName().substring(5));
     	GameRegistry.registerBlock(lMatterFluidBlock, MODID + "_" + lMatterFluidBlock.getUnlocalizedName().substring(5));
     	
+    	//Установка имени жидкостей?
     	LEnergyFluid.setUnlocalizedName(lEnergyFluidBlock.getUnlocalizedName());
     	LMatterFluid.setUnlocalizedName(lMatterFluidBlock.getUnlocalizedName());
     }
