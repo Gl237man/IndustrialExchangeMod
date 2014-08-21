@@ -14,20 +14,21 @@ import net.minecraftforge.fluids.Fluid;
 public class LEnergyFluidBlock extends BlockFluidClassic {
 
     @SideOnly(Side.CLIENT)
-    protected IIcon stillIcon;
+    protected IIcon stillIcon; //Иконка стоячей жидкости
     @SideOnly(Side.CLIENT)
-    protected IIcon flowingIcon;
+    protected IIcon flowingIcon; //Иконка текущей жидкости
     
     public LEnergyFluidBlock(Fluid fluid, Material material) {
             super(fluid, material);
-            setCreativeTab(CreativeTabs.tabMisc);
+            setCreativeTab(CreativeTabs.tabMisc);//Добовление во вкладку креатива
     }
     
     @Override
     public IIcon getIcon(int side, int meta) {
-            return (side == 0 || side == 1)? stillIcon : flowingIcon;
+            return (side == 0 || side == 1)? stillIcon : flowingIcon; //Если верх или низ то стоячая жидкость если бок то текущая
     }
     
+    //Регистрация иконок жидкостей
     @SideOnly(Side.CLIENT)
     @Override
     public void registerBlockIcons(IIconRegister register) {
@@ -35,6 +36,7 @@ public class LEnergyFluidBlock extends BlockFluidClassic {
             flowingIcon = register.registerIcon("iexchangemod:LEnergy_flow");
     }
     
+    //Возможность замены другой жидкости текущей
     @Override
     public boolean canDisplace(IBlockAccess world, int x, int y, int z) {
             if (world.getBlock(x,  y,  z).getMaterial().isLiquid()) return false;
