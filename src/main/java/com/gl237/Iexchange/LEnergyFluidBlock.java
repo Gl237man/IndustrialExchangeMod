@@ -31,8 +31,8 @@ public class LEnergyFluidBlock extends BlockFluidClassic {
     @SideOnly(Side.CLIENT)
     @Override
     public void registerBlockIcons(IIconRegister register) {
-            stillIcon = register.registerIcon("iexchangemod:LMatter_still");
-            flowingIcon = register.registerIcon("iexchangemod:LMatter_flow");
+            stillIcon = register.registerIcon("iexchangemod:LEnergy_still");
+            flowingIcon = register.registerIcon("iexchangemod:LEnergy_flow");
     }
     
     @Override
