@@ -15,10 +15,10 @@ public class IexchangeMod
 {
     public static final String MODID = "industrialexchange";
     public static final String VERSION = "0.1";
-    //РћР±СЊСЏРІР»РµРЅРё Р¶РёРґРєРѕСЃС‚РµР№
+    //Регистрация жидкостей
     public Fluid LEnergyFluid = new Fluid("LiquidEnergy");
     public Fluid LMatterFluid = new Fluid("LiquidMatter");
-    //РћР±СЊСЏРІР»РµРЅРёРµ Р±Р»РѕРєРѕРІ
+    //
     public Block lEnergyFluidBlock;
     public Block lMatterFluidBlock;
     
@@ -31,28 +31,28 @@ public class IexchangeMod
     	InitFuilds();
     	
     }
-    //Р РµРіРёСЃС‚СЂР°С†РёСЏ Р¶РёРґРєРѕСЃС‚РµР№ Р±Р»РѕРєРѕРІ Р¶РёРґРєРѕСЃС‚РµР№ Рё РІРµРґРµСЂРѕРє
+    //Инициализация жидкостей
     private void InitFuilds()
     {
-    	LEnergyFluid.setLuminosity(15); //РЎРІРµС‚РёРјРѕСЃС‚СЊ Р¶РёРґРєРѕСЃС‚Рё
-    	LEnergyFluid.setViscosity(500); //Р’СЏР·РєРѕСЃС‚СЊ Р¶РёРґРєРѕСЃС‚Рё С‡РµРј РјРµРЅСЊС€Рµ С‚РµРј С‚РµРєСѓС‡РµР№
+    	LEnergyFluid.setLuminosity(15); //Яркость жидкости
+    	LEnergyFluid.setViscosity(500); //Текучесть жидкости
     	
-    	LMatterFluid.setLuminosity(15); //РЎРІРµС‚РёРјРѕСЃС‚СЊ Р¶РёРґРєРѕСЃС‚Рё
-    	LMatterFluid.setViscosity(500); //Р’СЏР·РєРѕСЃС‚СЊ Р¶РёРґРєРѕСЃС‚Рё С‡РµРј РјРµРЅСЊС€Рµ С‚РµРј С‚РµРєСѓС‡РµР№
+    	LMatterFluid.setLuminosity(15); //Яркость жидкости
+    	LMatterFluid.setViscosity(500); //Текучесть жидкости
     	
-    	//Р РµРіРёСЃС‚СЂР°С†РёСЏ Р¶РёРґРєРѕСЃС‚РµР№ РІ СЂРµРµСЃС‚СЂРµ Р¶РёРґРєРѕСЃС‚РµР№
+    	//Регистрация жидкости в реестре жидкостей
     	FluidRegistry.registerFluid(LEnergyFluid);
     	FluidRegistry.registerFluid(LMatterFluid);
     	
-    	//РћР±СЏРІР»РµРЅРёРµ Р±Р»РѕРєРѕРІ Р¶РёРґРєРѕСЃС‚РµР№
+    	//Обявление блоков жидкостей
     	lEnergyFluidBlock = new LEnergyFluidBlock(LEnergyFluid, Material.water).setBlockName("LEnergyFluid");
     	lMatterFluidBlock = new LMatterFluidBlock(LMatterFluid, Material.water).setBlockName("LMatterFluid");
     	
-    	//Р”РѕР±РѕРІР»РµРЅРёРµ Р±Р»РѕРєРѕРІ Р¶РёРґРєРѕСЃС‚РµР№ РІ СЂРµРµСЃС‚СЂ Р¶РёРґРєРѕСЃС‚РµР№
+    	//Добовление блоков жидкостей в реестр жидкостей
     	GameRegistry.registerBlock(lEnergyFluidBlock, MODID + "_" + lEnergyFluidBlock.getUnlocalizedName().substring(5));
     	GameRegistry.registerBlock(lMatterFluidBlock, MODID + "_" + lMatterFluidBlock.getUnlocalizedName().substring(5));
     	
-    	//РЈСЃС‚Р°РЅРѕРІРєР° РёРјРµРЅРё Р¶РёРґРєРѕСЃС‚РµР№?
+    	//Установка имени жидкостей?
     	LEnergyFluid.setUnlocalizedName(lEnergyFluidBlock.getUnlocalizedName());
     	LMatterFluid.setUnlocalizedName(lMatterFluidBlock.getUnlocalizedName());
     }

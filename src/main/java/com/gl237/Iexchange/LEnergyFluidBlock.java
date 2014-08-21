@@ -14,21 +14,21 @@ import net.minecraftforge.fluids.Fluid;
 public class LEnergyFluidBlock extends BlockFluidClassic {
 
     @SideOnly(Side.CLIENT)
-    protected IIcon stillIcon; //РРєРѕРЅРєР° СЃС‚РѕСЏС‡РµР№ Р¶РёРґРєРѕСЃС‚Рё
+    protected IIcon stillIcon; //Иконка стоячей жидкости
     @SideOnly(Side.CLIENT)
-    protected IIcon flowingIcon; //РРєРѕРЅРєР° С‚РµРєСѓС‰РµР№ Р¶РёРґРєРѕСЃС‚Рё
+    protected IIcon flowingIcon; //Иконка текущей жидкости
     
     public LEnergyFluidBlock(Fluid fluid, Material material) {
             super(fluid, material);
-            setCreativeTab(CreativeTabs.tabMisc);//Р”РѕР±РѕРІР»РµРЅРёРµ РІРѕ РІРєР»Р°РґРєСѓ РєСЂРµР°С‚РёРІР°
+            setCreativeTab(CreativeTabs.tabMisc);//Добовление во вкладку креатива
     }
     
     @Override
     public IIcon getIcon(int side, int meta) {
-            return (side == 0 || side == 1)? stillIcon : flowingIcon; //Р•СЃР»Рё РІРµСЂС… РёР»Рё РЅРёР· С‚Рѕ СЃС‚РѕСЏС‡Р°СЏ Р¶РёРґРєРѕСЃС‚СЊ РµСЃР»Рё Р±РѕРє С‚Рѕ С‚РµРєСѓС‰Р°СЏ
+            return (side == 0 || side == 1)? stillIcon : flowingIcon; //Если верх или низ то стоячая жидкость если бок то текущая
     }
     
-    //Р РµРіРёСЃС‚СЂР°С†РёСЏ РёРєРѕРЅРѕРє Р¶РёРґРєРѕСЃС‚РµР№
+    //Регистрация иконок жидкостей
     @SideOnly(Side.CLIENT)
     @Override
     public void registerBlockIcons(IIconRegister register) {
@@ -36,7 +36,7 @@ public class LEnergyFluidBlock extends BlockFluidClassic {
             flowingIcon = register.registerIcon("iexchangemod:LEnergy_flow");
     }
     
-    //Р’РѕР·РјРѕР¶РЅРѕСЃС‚СЊ Р·Р°РјРµРЅС‹ РґСЂСѓРіРѕР№ Р¶РёРґРєРѕСЃС‚Рё С‚РµРєСѓС‰РµР№
+    //Возможность замены другой жидкости текущей
     @Override
     public boolean canDisplace(IBlockAccess world, int x, int y, int z) {
             if (world.getBlock(x,  y,  z).getMaterial().isLiquid()) return false;
