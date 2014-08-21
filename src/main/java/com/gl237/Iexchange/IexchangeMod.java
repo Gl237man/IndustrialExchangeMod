@@ -18,6 +18,7 @@ public class IexchangeMod
     public Fluid LEnergyFluid = new Fluid("LiquidEnergy");
     public Fluid LMatterFluid = new Fluid("LiquidMatter");
     public Block lEnergyFluidBlock;
+    public Block lMatterFluidBlock;
     
     @EventHandler
     public void init(FMLInitializationEvent event)
@@ -40,8 +41,13 @@ public class IexchangeMod
     	FluidRegistry.registerFluid(LMatterFluid);
     	
     	lEnergyFluidBlock = new LEnergyFluidBlock(LEnergyFluid, Material.water).setBlockName("LEnergyFluid");
+    	lMatterFluidBlock = new LMatterFluidBlock(LMatterFluid, Material.water).setBlockName("LMatterFluid");
+    	
     	GameRegistry.registerBlock(lEnergyFluidBlock, MODID + "_" + lEnergyFluidBlock.getUnlocalizedName().substring(5));
+    	GameRegistry.registerBlock(lMatterFluidBlock, MODID + "_" + lMatterFluidBlock.getUnlocalizedName().substring(5));
+    	
     	LEnergyFluid.setUnlocalizedName(lEnergyFluidBlock.getUnlocalizedName());
+    	LMatterFluid.setUnlocalizedName(lMatterFluidBlock.getUnlocalizedName());
     }
     
 }
