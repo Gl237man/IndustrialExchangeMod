@@ -18,6 +18,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = IexchangeMod.MODID, version = IexchangeMod.VERSION)
 public class IexchangeMod
@@ -41,7 +42,7 @@ public class IexchangeMod
         // System.out.println("DIRT BLOCK >> "+Blocks.dirt.getUnlocalizedName());
     	
     	InitFuilds();
-    	
+    	MinecraftForge.EVENT_BUS.register(this); 
     }
     //Èíèöèàëèçàöèÿ æèäêîñòåé
     private void InitFuilds()
