@@ -21,7 +21,7 @@ public class IexchangeMod
 {
     public static final String MODID = "industrialexchange";
     public static final String VERSION = "0.1";
-    //Ðåãèñòðàöèÿ æèäêîñòåé
+    //Проверка
     public Fluid LEnergyFluid;
     public Fluid LMatterFluid;
     //Ðåãèñòðàöèÿ áëîêîâ æèäêîñòè
