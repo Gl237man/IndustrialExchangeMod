@@ -25,13 +25,13 @@ public class IexchangeMod
 {
     public static final String MODID = "industrialexchange";
     public static final String VERSION = "0.1";
-    //Проверка
+    //Жидкости
     public Fluid LEnergyFluid;
     public Fluid LMatterFluid;
-    //Ðåãèñòðàöèÿ áëîêîâ æèäêîñòè
+    //Блоки жидкости
     public Block lEnergyFluidBlock;
     public Block lMatterFluidBlock;
-    //Ðåãåñòðàöèÿ âåäåðîê))
+    //Ведерки с жидкостью
     public Item lEnergyBucketItem;
     public Item lMatterBucketItem;
     
@@ -44,35 +44,35 @@ public class IexchangeMod
     	InitFuilds();
     	MinecraftForge.EVENT_BUS.register(this); 
     }
-    //Èíèöèàëèçàöèÿ æèäêîñòåé
+    //Инициализация жидкосией
     private void InitFuilds()
     {
     	
     	LEnergyFluid = new Fluid("LiquidEnergy");
         LMatterFluid = new Fluid("LiquidMatter");
     	
-    	LEnergyFluid.setLuminosity(15); //ßðêîñòü æèäêîñòè
-    	LEnergyFluid.setViscosity(500); //Òåêó÷åñòü æèäêîñòè
+    	LEnergyFluid.setLuminosity(15); //Светимость
+    	LEnergyFluid.setViscosity(500); //Текучесть
     	
-    	LMatterFluid.setLuminosity(1); //ßðêîñòü æèäêîñòè
-    	LMatterFluid.setViscosity(7000); //Òåêó÷åñòü æèäêîñòè
+    	LMatterFluid.setLuminosity(1); //Светимость
+    	LMatterFluid.setViscosity(7000); //Текучесть
     	
-    	//Ðåãèñòðàöèÿ æèäêîñòè â ðååñòðå æèäêîñòåé
+    	//Добовляем жидкость в реестр жидкостей
     	FluidRegistry.registerFluid(LEnergyFluid);
     	FluidRegistry.registerFluid(LMatterFluid);
     	
-    	//Îáÿâëåíèå áëîêîâ æèäêîñòåé
+    	//Добовляем блоки жидкости
     	lEnergyFluidBlock = new LEnergyFluidBlock(LEnergyFluid, Material.water).setBlockName("LEnergyFluidB");
     	lMatterFluidBlock = new LMatterFluidBlock(LMatterFluid, Material.water).setBlockName("LMatterFluidB");
     	
-    	//Äîáîâëåíèå áëîêîâ æèäêîñòåé â ðååñòð æèäêîñòåé
+    	//Регистрируем блоки жидкости в реестре жидкостей
     	GameRegistry.registerBlock(lEnergyFluidBlock, MODID + "_" + lEnergyFluidBlock.getUnlocalizedName());
     	GameRegistry.registerBlock(lMatterFluidBlock, MODID + "_" + lMatterFluidBlock.getUnlocalizedName());
     	
-    	//Óñòàíîâêà èìåíè æèäêîñòåé?
+    	//Устанавливаем имена жидкостей
     	LEnergyFluid.setUnlocalizedName(lEnergyFluidBlock.getUnlocalizedName());
     	LMatterFluid.setUnlocalizedName(lMatterFluidBlock.getUnlocalizedName());
-    	//Èíèöèàëèçàöèÿ âåäåð ñ æèäêîñòüþ 
+    	//Регистрируем ведерки
     	
     	lEnergyBucketItem = new LEnergyBucketItem(lEnergyFluidBlock);
     	lMatterBucketItem = new LEnergyBucketItem(lMatterFluidBlock);
@@ -87,7 +87,9 @@ public class IexchangeMod
     	FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack("liquidmatter", FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(lMatterBucketItem), new ItemStack(Items.bucket));
     	
     }
-    //Dont Check
+
+    
+    //Перехватываем событие получение текстуры для жидкостей
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void textureHook(TextureStitchEvent.Post event) 
