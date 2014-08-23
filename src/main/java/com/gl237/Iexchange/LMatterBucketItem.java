@@ -15,7 +15,7 @@ public class LMatterBucketItem extends ItemBucket {
 	
 	public LMatterBucketItem(Block block) {
 	
-		this(block, CreativeTabs.tabMisc);
+		this(block, IexchangeMod.IECreativeTab);
 	}
 
 	public LMatterBucketItem(Block block, CreativeTabs creativeTab) {

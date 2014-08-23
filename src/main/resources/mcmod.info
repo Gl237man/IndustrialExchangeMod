@@ -3,7 +3,7 @@
   "modid": "industrialexchange",
   "name": "Industrial Exchange Mod",
   "description": "This mod for matter manipulation",
-  "version": "beta",
+  "version": "Alpha",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",

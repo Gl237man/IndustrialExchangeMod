@@ -15,7 +15,7 @@ public class LEnergyBucketItem extends ItemBucket {
 	
 	public LEnergyBucketItem(Block block) {
 	
-		this(block, CreativeTabs.tabMisc);
+		this(block, IexchangeMod.IECreativeTab);
 	}
 
 	public LEnergyBucketItem(Block block, CreativeTabs creativeTab) {

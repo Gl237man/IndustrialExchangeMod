@@ -2,6 +2,7 @@ package com.gl237.Iexchange;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -29,12 +30,13 @@ public class IexchangeMod
     public Fluid LEnergyFluid;
     public Fluid LMatterFluid;
     //Блоки жидкости
-    public Block lEnergyFluidBlock;
-    public Block lMatterFluidBlock;
+    public static Block lEnergyFluidBlock;
+    public static Block lMatterFluidBlock;
     //Ведерки с жидкостью
-    public Item lEnergyBucketItem;
-    public Item lMatterBucketItem;
+    public static Item lEnergyBucketItem;
+    public static Item lMatterBucketItem;
     
+    public static CreativeTabs IECreativeTab = new IECreativeTab(CreativeTabs.getNextID(),"IECreativeTab");
     @EventHandler
     public void init(FMLInitializationEvent event)
     {

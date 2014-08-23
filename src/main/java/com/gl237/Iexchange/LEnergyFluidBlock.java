@@ -20,7 +20,7 @@ public class LEnergyFluidBlock extends BlockFluidClassic {
     
     public LEnergyFluidBlock(Fluid fluid, Material material) {
             super(fluid, material);
-            setCreativeTab(CreativeTabs.tabMisc);//Добовление в креатив таб
+            setCreativeTab(IexchangeMod.IECreativeTab);//Добовление в креатив таб
     }
     
     @Override
