@@ -35,16 +35,24 @@ public class IexchangeMod
     //Ведерки с жидкостью
     public static Item lEnergyBucketItem;
     public static Item lMatterBucketItem;
+    //Машины
+    public static Block sFLEGeneratorMachieBlock;//Твердотопливный генератор ЖЭ
     
     public static CreativeTabs IECreativeTab = new IECreativeTab(CreativeTabs.getNextID(),"IECreativeTab");
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-		// some example code
+	
         // System.out.println("DIRT BLOCK >> "+Blocks.dirt.getUnlocalizedName());
-    	
+    	InitMachines();
     	InitFuilds();
     	MinecraftForge.EVENT_BUS.register(this); 
+    }
+    //Инициализация машин
+    private void InitMachines()
+    {
+    	sFLEGeneratorMachieBlock = new SFLEGeneratorMachieBlock(Material.iron).setBlockName("sFLEGeneratorMachieBlock");
+    	GameRegistry.registerBlock(sFLEGeneratorMachieBlock, MODID + "_" + sFLEGeneratorMachieBlock.getUnlocalizedName());
     }
     //Инициализация жидкосией
     private void InitFuilds()
