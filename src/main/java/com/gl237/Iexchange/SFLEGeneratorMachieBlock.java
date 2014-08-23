@@ -31,8 +31,8 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
 	IIcon textureRight;
 
 	
-	protected SFLEGeneratorMachieBlock(Material p_i1700_1_) {
-		super(p_i1700_1_);
+	protected SFLEGeneratorMachieBlock(Material mat) {
+		super(mat);
 		setCreativeTab(IexchangeMod.IECreativeTab);//Добовление в креатив таб
 		this.setHardness(4F);//Установка прочности
 		this.setResistance(1F);//Установка Взрывозащищоности
