@@ -30,19 +30,21 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
 	IIcon textureLeft;
 	IIcon textureRight;
 
+	
 	protected SFLEGeneratorMachieBlock(Material p_i1700_1_) {
 		super(p_i1700_1_);
 		setCreativeTab(IexchangeMod.IECreativeTab);//Добовление в креатив таб
-		this.setHardness(4F);
-		this.setResistance(1F);
+		this.setHardness(4F);//Установка прочности
+		this.setResistance(1F);//Установка Взрывозащищоности
 	}
 
+	//Тип предмета при добычи
 	@Override
     public Item getItemDropped(int par1, Random par2Random, int par3)
     {
 		return Item.getItemFromBlock(IexchangeMod.sFLEGeneratorMachieBlock);
     }
-	
+	//Количество предметов при добычи
 	@Override
 	public int quantityDropped(Random par1Random)
 	{
@@ -71,6 +73,7 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
         
 	}
 	
+    //Установка метадаты в зависимости от положения игрока 
     @Override
 	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLivingBase entityliving, ItemStack stack) {
 		super.onBlockPlacedBy(world, i, j, k, entityliving, stack);
@@ -80,7 +83,7 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
 		world.setBlockMetadataWithNotify(i, j, k, orientation.getOpposite().ordinal(), 1);
 		
 	}
-    
+    //Утилита для получения направления подсмотренно в BuildCraft
     public static ForgeDirection get2dOrientation(EntityLivingBase entityliving) {
 		ForgeDirection[] orientationTable = { ForgeDirection.SOUTH,
 				ForgeDirection.WEST, ForgeDirection.NORTH, ForgeDirection.EAST };
@@ -88,6 +91,7 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
 		return orientationTable[orientationIndex];
 	}
     
+    //Получение Иконки в зависимости от положения обьекта
 	@Override
 	public IIcon getIcon(int i, int j) {
 		switch(j)
