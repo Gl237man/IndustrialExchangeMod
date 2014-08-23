@@ -1,5 +1,7 @@
 package com.gl237.Iexchange;
 
+import java.util.Random;
+
 import javax.swing.Icon;
 
 import cpw.mods.fml.relauncher.Side;
@@ -10,6 +12,8 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
@@ -29,8 +33,23 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
 	protected SFLEGeneratorMachieBlock(Material p_i1700_1_) {
 		super(p_i1700_1_);
 		setCreativeTab(IexchangeMod.IECreativeTab);//Добовление в креатив таб
+		this.setHardness(4F);
+		this.setResistance(1F);
 	}
 
+	@Override
+    public Item getItemDropped(int par1, Random par2Random, int par3)
+    {
+		return Item.getItemFromBlock(IexchangeMod.sFLEGeneratorMachieBlock);
+    }
+	
+	@Override
+	public int quantityDropped(Random par1Random)
+	{
+	    return 1;
+	}
+	
+	
 	@Override
 	public TileEntity createNewTileEntity(World arg0, int arg1) {
 		// TODO Auto-generated method stub
