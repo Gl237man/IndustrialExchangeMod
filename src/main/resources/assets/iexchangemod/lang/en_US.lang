@@ -1,0 +1,7 @@
+# es_US
+# Languege File
+
+tile.LEnergyFluidB.name=Liquid Energy
+tile.LMatterFluidB.name=Liquid Matter
+item.lEnergyBucketItem.name=Energy Bucket
+item.lMatterBucketItem.name=Matter Bucket
