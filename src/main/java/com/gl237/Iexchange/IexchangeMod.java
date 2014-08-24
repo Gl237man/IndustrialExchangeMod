@@ -13,8 +13,10 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -24,6 +26,10 @@ import net.minecraftforge.common.MinecraftForge;
 @Mod(modid = IexchangeMod.MODID, version = IexchangeMod.VERSION)
 public class IexchangeMod
 {
+	
+	@Instance("IexchangeMod")
+	public static IexchangeMod instance;
+	
     public static final String MODID = "industrialexchange";
     public static final String VERSION = "0.1";
     //Жидкости
@@ -53,6 +59,11 @@ public class IexchangeMod
     {
     	sFLEGeneratorMachieBlock = new SFLEGeneratorMachieBlock(Material.iron).setBlockName("sFLEGeneratorMachieBlock");
     	GameRegistry.registerBlock(sFLEGeneratorMachieBlock, MODID + "_" + sFLEGeneratorMachieBlock.getUnlocalizedName());
+    	
+    	GameRegistry.registerTileEntity(SFLEGeneratorMachieTileEntity.class, "SFLEGeneratorMachieContainer");
+    	NetworkRegistry.INSTANCE.registerGuiHandler(this, new MyGuiHandler());
+    	//NetworkRegistry.instance().registerGuiHandler(this, new MyGuiHandler());
+
     }
     //Инициализация жидкосией
     private void InitFuilds()

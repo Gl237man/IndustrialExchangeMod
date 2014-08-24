@@ -173,6 +173,11 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	        nbttagcompound.setTag("Items", nbttaglist);
 	        //nbttagcompound.setByte("facing", (byte)facing);
 	    }
+
+		public boolean isInvNameLocalized() {
+			// TODO Auto-generated method stub
+			return true;
+		}
 		 
 
 

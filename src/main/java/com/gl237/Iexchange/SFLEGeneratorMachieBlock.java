@@ -31,6 +31,7 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
 	IIcon textureRight;
 
 	
+	
 	protected SFLEGeneratorMachieBlock(Material mat) {
 		super(mat);
 		setCreativeTab(IexchangeMod.IECreativeTab);//Добовление в креатив таб
@@ -38,6 +39,22 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
 		this.setResistance(1F);//Установка Взрывозащищоности
 	}
 
+	
+	@Override
+    public boolean onBlockActivated(World world, int x, int y, int z,
+                                    EntityPlayer player, int idk, float what, float these, float are) 
+	 	{
+            TileEntity tileEntity = world.getTileEntity(x, y, z);
+            if (tileEntity == null || player.isSneaking()) 
+            {
+               return false;
+            }
+            player.openGui(IexchangeMod.instance, 0, world, x, y, z);
+            //player.openGui(NanoExcange.instance, 0, world, x, y, z);
+            return true;
+    }
+
+	
 	//Тип предмета при добычи
 	@Override
     public Item getItemDropped(int par1, Random par2Random, int par3)
@@ -55,7 +72,7 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
 	@Override
 	public TileEntity createNewTileEntity(World arg0, int arg1) {
 		// TODO Auto-generated method stub
-		return null;
+		return new SFLEGeneratorMachieTileEntity();
 	}
 	
 	//Регистрируем иконки
