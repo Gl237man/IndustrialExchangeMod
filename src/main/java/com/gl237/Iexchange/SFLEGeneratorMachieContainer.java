@@ -13,7 +13,7 @@ public class SFLEGeneratorMachieContainer extends Container {
 	public SFLEGeneratorMachieContainer(InventoryPlayer par1InventoryPlayer, SFLEGeneratorMachieTileEntity TileEntitydisasm)
 	{
 		this.Mesh = TileEntitydisasm;
-        this.addSlotToContainer(new Slot(TileEntitydisasm, 0, 56, 17));
+        this.addSlotToContainer(new Slot(TileEntitydisasm, 0, 52, 41));
         //this.addSlotToContainer(new Slot(TileEntitydisasm, 1, 56, 53));
         //this.addSlotToContainer(new SlotFurnace(par1InventoryPlayer.player, TileEntitydisasm, 2, 116, 35));
         int i;
@@ -32,44 +32,42 @@ public class SFLEGeneratorMachieContainer extends Container {
         }
 	}
 			
-	@Override
-    public ItemStack transferStackInSlot(EntityPlayer player, int slot) {
-            ItemStack stack = null;
-            Slot slotObject = (Slot) inventorySlots.get(slot);
-            
-            //null checks and checks if the item can be stacked (maxStackSize > 1)
-            if (slotObject != null && slotObject.getHasStack()) {
-                    ItemStack stackInSlot = slotObject.getStack();
-                    stack = stackInSlot.copy();
-
-                    //merges the item into player inventory since its in the tileEntity
-                    if (slot < 1) 
-                    {
-                    	//return null;
-                    	if (!this.mergeItemStack(stackInSlot, 0, 35, false)) {
-                                    return null;
-                            }
-                                            
-                    }
-                    //places it into the tileEntity is possible since its in the player inventory
-                    else if (!this.mergeItemStack(stackInSlot, 0, 1, true)) {
-                            return null;
-                    }
-
-                    if (stackInSlot.stackSize == 0) {
-                            slotObject.putStack(null);
-                    } else {
-                            slotObject.onSlotChanged();
-                    }
-
-                    if (stackInSlot.stackSize == stack.stackSize) {
-                            return null;
-                    }
-                    slotObject.onPickupFromSlot(player, stackInSlot);
-            }
-            return stack;
-            
-    }
+	 @Override
+	    public ItemStack transferStackInSlot(EntityPlayer p, int i)//Оброботка шифтклик!
+	    {
+		 	int InvSize=1;
+	        ItemStack itemstack = null;
+	        Slot slot = (Slot) inventorySlots.get(i);
+	        if (slot != null && slot.getHasStack())
+	        {
+	            ItemStack itemstack1 = slot.getStack();
+	            itemstack = itemstack1.copy();
+	            if (i < InvSize)
+	            {
+	                if (!mergeItemStack(itemstack1, InvSize, inventorySlots.size(), true))
+	                {
+	                    return null;
+	                }
+	            }
+	            /*else if (!Filter)
+	            {
+	                return null;
+	            }*/
+	            else if (!mergeItemStack(itemstack1, 0, InvSize, false))
+	            {
+	                return null;
+	            }
+	            if (itemstack1.stackSize == 0)
+	            {
+	                slot.putStack(null);
+	            }
+	            else
+	            {
+	                slot.onSlotChanged();
+	            }
+	        }
+	        return itemstack;
+	    }
 
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer) {

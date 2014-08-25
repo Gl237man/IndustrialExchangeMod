@@ -15,6 +15,7 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	
 	public SFLEGeneratorMachieTileEntity()
 	{
+		super();
 		InvItemStacks = new ItemStack[1];
 	}
 	
@@ -25,43 +26,38 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		if (this.InvItemStacks[i] != null)
+		if (InvItemStacks[i] != null)
         {
-                ItemStack itemstack;
-
-                if (this.InvItemStacks[i].stackSize <= j)
-                {
-                        itemstack = this.InvItemStacks[i];
-                        this.InvItemStacks[i] = null;
-                        return itemstack;
-                }
-                else
-                {
-                        itemstack = this.InvItemStacks[i].splitStack(j);
-
-                        if (this.InvItemStacks[i].stackSize == 0)
-                        {
-                                this.InvItemStacks[i] = null;
-                        }
-
-                        return itemstack;
-                }
+            if (InvItemStacks[i].stackSize <= j)
+            {
+                ItemStack itemstack = InvItemStacks[i];
+                InvItemStacks[i] = null;
+                markDirty();
+                return itemstack;
+            }
+            ItemStack itemstack1 = InvItemStacks[i].splitStack(j);
+            if (InvItemStacks[i].stackSize == 0)
+            {
+            	InvItemStacks[i] = null;
+            }
+            markDirty();
+            return itemstack1;
         }
         else
         {
-                return null;
+            return null;
         }
 	}
 
 	@Override
 	public String getInventoryName() {
-		return "Nano Disasembler";
+		return "SFLE Generator";
 	}
 
 	@Override
 	public int getInventoryStackLimit() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 64;
 	}
 
 	@Override
@@ -130,6 +126,8 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
         	itemstack.stackSize = this.getInventoryStackLimit();
         }
 	}
+	
+	
 	
 	public void updateEntity()
     {

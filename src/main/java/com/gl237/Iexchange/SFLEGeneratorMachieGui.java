@@ -27,7 +27,7 @@ public class SFLEGeneratorMachieGui extends GuiContainer{
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		 this.mc.getTextureManager().bindTexture(new ResourceLocation("IexchangeMod", "textures/gui/SFgenGui.png"));
+		 this.mc.getTextureManager().bindTexture(new ResourceLocation("iexchangemod", "textures/gui/SFgenGui.png"));
          int k = (this.width - this.xSize) / 2;
          int l = (this.height - this.ySize) / 2;
          this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
