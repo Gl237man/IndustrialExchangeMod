@@ -48,7 +48,7 @@ public class IexchangeMod
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-	
+    	instance = this;
         // System.out.println("DIRT BLOCK >> "+Blocks.dirt.getUnlocalizedName());
     	InitMachines();
     	InitFuilds();
@@ -62,7 +62,7 @@ public class IexchangeMod
     	
     	GameRegistry.registerTileEntity(SFLEGeneratorMachieTileEntity.class, "SFLEGeneratorMachieContainer");
     	
-    	NetworkRegistry.INSTANCE.registerGuiHandler(instance, new MyGuiHandler());//Попробовать заменить с this на instance
+    	NetworkRegistry.INSTANCE.registerGuiHandler(IexchangeMod.instance, new MyGuiHandler());//Попробовать заменить с this на instance
     	//NetworkRegistry.INSTANCE.registerGuiHandler(this, new MyGuiHandler());
     	//NetworkRegistry.instance().registerGuiHandler(this, new MyGuiHandler());
 
