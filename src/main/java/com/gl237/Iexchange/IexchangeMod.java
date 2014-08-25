@@ -61,7 +61,9 @@ public class IexchangeMod
     	GameRegistry.registerBlock(sFLEGeneratorMachieBlock, MODID + "_" + sFLEGeneratorMachieBlock.getUnlocalizedName());
     	
     	GameRegistry.registerTileEntity(SFLEGeneratorMachieTileEntity.class, "SFLEGeneratorMachieContainer");
-    	NetworkRegistry.INSTANCE.registerGuiHandler(this, new MyGuiHandler());
+    	
+    	NetworkRegistry.INSTANCE.registerGuiHandler(instance, new MyGuiHandler());//Попробовать заменить с this на instance
+    	//NetworkRegistry.INSTANCE.registerGuiHandler(this, new MyGuiHandler());
     	//NetworkRegistry.instance().registerGuiHandler(this, new MyGuiHandler());
 
     }
