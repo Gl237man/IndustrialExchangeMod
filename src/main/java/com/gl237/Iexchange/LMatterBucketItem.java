@@ -1,3 +1,8 @@
+// LMatterBucketItem
+// Item LMatterBucket
+// Ведро жидкой Маттерии
+// gl237man
+
 package com.gl237.Iexchange;
 
 import net.minecraft.block.Block;
@@ -13,6 +18,7 @@ public class LMatterBucketItem extends ItemBucket {
 
 	private String iconName;
 	
+	// block это блок жидкости связанный с ведром
 	public LMatterBucketItem(Block block) {
 	
 		this(block, IexchangeMod.IECreativeTab);
@@ -24,12 +30,14 @@ public class LMatterBucketItem extends ItemBucket {
 		setCreativeTab(creativeTab);
 	}
 
+	//Регистрируем имя предмета
 	@Override
 	public Item setUnlocalizedName(String par1Str) {
 		iconName = par1Str;
 		return super.setUnlocalizedName(par1Str);
 	}
 
+	//Регистрируем иконку предмета
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister par1IconRegister) {
