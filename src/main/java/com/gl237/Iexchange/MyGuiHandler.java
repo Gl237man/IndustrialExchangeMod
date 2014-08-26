@@ -1,3 +1,7 @@
+// MyGuiHandler.java
+// Менеджер Графических интерфейсов
+// gl237man
+
 package com.gl237.Iexchange;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,9 +15,9 @@ public class MyGuiHandler implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
-		 TileEntity tileEntity = world.getTileEntity(x, y, z);
+		 TileEntity tileEntity = world.getTileEntity(x, y, z);//Получаем ентити обекта открываемого интерфейса
 
-         if(tileEntity instanceof SFLEGeneratorMachieTileEntity)
+         if(tileEntity instanceof SFLEGeneratorMachieTileEntity)//Если ентити является SFLE Генераторовм то Возврощяем контейнер
          {
                 return new SFLEGeneratorMachieContainer(player.inventory, (SFLEGeneratorMachieTileEntity) tileEntity);
          }
@@ -24,27 +28,13 @@ public class MyGuiHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
-		TileEntity tileEntity = world.getTileEntity(x, y, z);
+		TileEntity tileEntity = world.getTileEntity(x, y, z);//Получаем ентити обекта открываемого интерфейса
 
-        if(tileEntity instanceof SFLEGeneratorMachieTileEntity)
+        if(tileEntity instanceof SFLEGeneratorMachieTileEntity)//Если ентити является SFLE Генераторовм то Возврощяем Гуи
         {
                  return new SFLEGeneratorMachieGui(player.inventory, (SFLEGeneratorMachieTileEntity) tileEntity);
         }
         return null;
 	}
-/*
-	@Override
-	public Object getClientGuiElement(int arg0, EntityPlayer arg1, World arg2,
-			int arg3, int arg4, int arg5) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public Object getServerGuiElement(int arg0, EntityPlayer arg1, World arg2,
-			int arg3, int arg4, int arg5) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-*/
 }
