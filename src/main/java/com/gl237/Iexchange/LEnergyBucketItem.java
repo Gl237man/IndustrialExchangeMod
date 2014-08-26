@@ -1,3 +1,8 @@
+// LEnergyBucketItem.java
+// Item LEnergyBucket
+// Ведро жидкой энергии
+// gl237man
+
 package com.gl237.Iexchange;
 
 import cpw.mods.fml.relauncher.Side;
@@ -13,6 +18,7 @@ public class LEnergyBucketItem extends ItemBucket {
 
 	private String iconName;
 	
+	// block это блок жидкости связанный с ведром
 	public LEnergyBucketItem(Block block) {
 	
 		this(block, IexchangeMod.IECreativeTab);
@@ -20,16 +26,18 @@ public class LEnergyBucketItem extends ItemBucket {
 
 	public LEnergyBucketItem(Block block, CreativeTabs creativeTab) {
 		super(block);
-		setContainerItem(Items.bucket);
-		setCreativeTab(creativeTab);
+		setContainerItem(Items.bucket);//Указываем что ведроя является контейнером для жидкости
+		setCreativeTab(creativeTab);//Указываем вкладку в реативе
 	}
 
+	//Регистрируем имя предмета
 	@Override
 	public Item setUnlocalizedName(String par1Str) {
 		iconName = par1Str;
 		return super.setUnlocalizedName(par1Str);
 	}
-
+	
+	//Регистрируем иконку предмета
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IIconRegister par1IconRegister) {
