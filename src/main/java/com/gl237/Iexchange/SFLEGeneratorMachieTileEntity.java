@@ -12,12 +12,19 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidHandler;
+import net.minecraftforge.fluids.IFluidTank;
 
-public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInventory
+public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInventory, IFluidTank ,IFluidHandler
 {
 
 	private ItemStack[] InvItemStacks;//Предметы в контейнере
-	
+	private int FluidLevel;
 	public SFLEGeneratorMachieTileEntity()
 	{
 		super();
@@ -64,7 +71,6 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	// Получаем мксимальное количество прдметов в стаке
 	@Override
 	public int getInventoryStackLimit() {
-		// TODO Auto-generated method stub
 		return 64;
 	}
 
@@ -126,6 +132,7 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	//При открытии инвентаря
 	@Override
 	public void openInventory() {
+		FluidLevel = 5000;
 		// TODO Auto-generated method stub
 	}
 	
@@ -163,6 +170,7 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 				InvItemStacks[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
+		FluidLevel = nbttagcompound.getInteger("FluidLevel");
 		//facing = nbttagcompound.getByte("facing");
 	       
 	}
@@ -184,6 +192,7 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 			}
 		}
 	        nbttagcompound.setTag("Items", nbttaglist);
+	        nbttagcompound.setInteger("FluidLevel", FluidLevel);
 	        //nbttagcompound.setByte("facing", (byte)facing);
 	}
 
@@ -191,6 +200,148 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	public boolean isInvNameLocalized() {
 		// TODO Auto-generated method stub
 		return true;
+	}
+	//Обработка жидкостей
+	@Override
+	public FluidStack drain(int arg0, boolean arg1) {
+		if (FluidLevel>0 && arg1)
+		{
+			if (FluidLevel>=arg0)
+			{
+				FluidStack f = FluidRegistry.getFluidStack("liquidenergy", arg0);
+				FluidLevel-=arg0;
+				markDirty();
+				return f;
+			}
+			else
+			{
+				FluidStack f = FluidRegistry.getFluidStack("liquidenergy", FluidLevel);
+				FluidLevel-=FluidLevel;
+				markDirty();
+				return f;
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public int fill(FluidStack arg0, boolean arg1) {
+		if (arg0.fluidID == getFluid().fluidID && arg1)
+		{
+			if (arg0.amount > (getCapacity()-FluidLevel))
+			{
+				FluidLevel+=arg0.amount;
+				markDirty();
+				return arg0.amount;
+			}
+			else
+			{
+				FluidLevel+=getCapacity()-FluidLevel;
+				markDirty();
+				return getCapacity()-FluidLevel;
+			}
+		}
+		return 0;
+	}
+	
+	@Override
+	public int getCapacity() {
+		return 10000;
+	}
+	
+	@Override
+	public FluidStack getFluid() {
+		return FluidRegistry.getFluidStack("liquidenergy", 1000);
+	}
+	@Override
+	public int getFluidAmount() {
+		return FluidLevel;
+	}
+	@Override
+	public FluidTankInfo getInfo() {
+		return new FluidTankInfo(getFluid(), 10000);
+	}
+	@Override
+	public boolean canDrain(ForgeDirection arg0, Fluid arg1) {
+		return arg1.getID() == getFluid().fluidID;
+	}
+	@Override
+	public boolean canFill(ForgeDirection arg0, Fluid arg1) {
+		return arg1.getID() == getFluid().fluidID;
+	}
+	@Override
+	public FluidStack drain(ForgeDirection arg0, FluidStack arg1, boolean arg2) {
+		
+		if (FluidLevel>0 && arg2)
+		{
+			if (FluidLevel>=arg1.amount)
+			{
+				FluidStack f = FluidRegistry.getFluidStack("liquidenergy", arg1.amount);
+				FluidLevel-=arg1.amount;
+				markDirty();
+				return f;
+			}
+			else
+			{
+				FluidStack f = FluidRegistry.getFluidStack("liquidenergy", FluidLevel);
+				FluidLevel-=FluidLevel;
+				markDirty();
+				return f;
+			}
+		}
+		return null;
+	}
+	@Override
+	public FluidStack drain(ForgeDirection arg0, int arg1, boolean arg2) {
+		// TODO Auto-generated method stub
+		//return FluidRegistry.getFluidStack("liquidenergy", arg1);
+		//return null;
+		
+		if (FluidLevel>0)
+		{
+			if (FluidLevel>=arg1)
+			{
+				FluidStack f = FluidRegistry.getFluidStack("liquidenergy", arg1);
+				FluidLevel-=arg1;
+				markDirty();
+				return f;
+			}
+			else
+			{
+				FluidStack f = FluidRegistry.getFluidStack("liquidenergy", FluidLevel);
+				FluidLevel-=FluidLevel;
+				markDirty();
+				return f;
+			}
+		}
+		return null;
+		
+	}
+	@Override
+	public int fill(ForgeDirection arg0, FluidStack arg1, boolean arg2) {
+		
+		if (arg1.fluidID == getFluid().fluidID && arg2)
+		{
+			if (arg1.amount + FluidLevel <= getCapacity())
+			{
+				FluidLevel+=arg1.amount;
+				markDirty();
+				return arg1.amount;
+			}
+			else
+			{
+				FluidLevel+=getCapacity()-FluidLevel;
+				markDirty();
+				return getCapacity()-FluidLevel;
+			}
+		}
+		return 0;
+	}
+	@Override
+	public FluidTankInfo[] getTankInfo(ForgeDirection arg0) {
+		FluidTankInfo[] fm = new FluidTankInfo[1];
+		fm[0] = new FluidTankInfo(getFluid(), 10000);
+		return fm;
 	}
 	 
 
