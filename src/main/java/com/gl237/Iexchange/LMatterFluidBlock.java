@@ -1,3 +1,8 @@
+// LMatterFluidBlock.java
+// Block LMatterFluid
+// Блок жидкой Маттерии
+// gl237man
+
 package com.gl237.Iexchange;
 
 import cpw.mods.fml.relauncher.Side;
