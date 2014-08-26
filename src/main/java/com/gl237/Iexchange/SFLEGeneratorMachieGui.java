@@ -25,7 +25,7 @@ public class SFLEGeneratorMachieGui extends GuiContainer{
 	//Отрисовка переднего слоя
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
     	{
-        	String s = this.DisInventory.isInvNameLocalized() ? this.DisInventory.getInventoryName() : StatCollector.translateToLocal(this.DisInventory.getInventoryName()); Получаем имя инвентаря
+        	String s = this.DisInventory.isInvNameLocalized() ? this.DisInventory.getInventoryName() : StatCollector.translateToLocal(this.DisInventory.getInventoryName());// Получаем имя инвентаря
         	this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);//Отрисовываем имя
         	this.fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);//отрисовываем имя инвентаря пользователя
     	}
