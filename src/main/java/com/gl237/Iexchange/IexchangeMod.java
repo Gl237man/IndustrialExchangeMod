@@ -26,9 +26,10 @@ import net.minecraftforge.common.MinecraftForge;
 @Mod(modid = IexchangeMod.MODID, version = IexchangeMod.VERSION)
 public class IexchangeMod
 {
-	
-	@Instance("IexchangeMod")
-	public static IexchangeMod instance;
+
+    //Обявляем инстанс
+    @Instance("IexchangeMod")
+    public static IexchangeMod instance;
 	
     public static final String MODID = "industrialexchange";
     public static final String VERSION = "0.1";
@@ -48,8 +49,7 @@ public class IexchangeMod
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
-    	instance = this;
-        // System.out.println("DIRT BLOCK >> "+Blocks.dirt.getUnlocalizedName());
+    	instance = this;//Без этого почемуто не работает
     	InitMachines();
     	InitFuilds();
     	MinecraftForge.EVENT_BUS.register(this); 
@@ -57,14 +57,13 @@ public class IexchangeMod
     //Инициализация машин
     private void InitMachines()
     {
+	//Регистрируем блок SFLE Генератора
     	sFLEGeneratorMachieBlock = new SFLEGeneratorMachieBlock(Material.iron).setBlockName("sFLEGeneratorMachieBlock");
     	GameRegistry.registerBlock(sFLEGeneratorMachieBlock, MODID + "_" + sFLEGeneratorMachieBlock.getUnlocalizedName());
-    	
-    	GameRegistry.registerTileEntity(SFLEGeneratorMachieTileEntity.class, "SFLEGeneratorMachieContainer");
-    	
-    	NetworkRegistry.INSTANCE.registerGuiHandler(IexchangeMod.instance, new MyGuiHandler());
-    	//NetworkRegistry.INSTANCE.registerGuiHandler(this, new MyGuiHandler());
-    	//NetworkRegistry.instance().registerGuiHandler(this, new MyGuiHandler());
+   	GameRegistry.registerTileEntity(SFLEGeneratorMachieTileEntity.class, "SFLEGeneratorMachieContainer");//Добовляем ентитти
+  	
+    	NetworkRegistry.INSTANCE.registerGuiHandler(IexchangeMod.instance, new MyGuiHandler());//Регистрируем гуи хендлер
+
 
     }
     //Инициализация жидкосией
@@ -95,17 +94,17 @@ public class IexchangeMod
     	//Устанавливаем имена жидкостей
     	LEnergyFluid.setUnlocalizedName(lEnergyFluidBlock.getUnlocalizedName());
     	LMatterFluid.setUnlocalizedName(lMatterFluidBlock.getUnlocalizedName());
-    	//Регистрируем ведерки
     	
+    	//Обявляем ведерки
     	lEnergyBucketItem = new LEnergyBucketItem(lEnergyFluidBlock);
     	lMatterBucketItem = new LEnergyBucketItem(lMatterFluidBlock);
-    	
+    	//Именуем ведерки
     	lEnergyBucketItem.setUnlocalizedName("lEnergyBucketItem").setContainerItem(Items.bucket);
     	lMatterBucketItem.setUnlocalizedName("lMatterBucketItem").setContainerItem(Items.bucket);
-    	
+    	//Регистрируем ведерки
     	GameRegistry.registerItem(lEnergyBucketItem, "lEnergyBucketItem");
     	GameRegistry.registerItem(lMatterBucketItem, "lMatterBucketItem");
-    	
+    	//Регистрируем ведерки как контейнеры с жидкостью
     	FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack("liquidenergy", FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(lEnergyBucketItem), new ItemStack(Items.bucket));
     	FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack("liquidmatter", FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(lMatterBucketItem), new ItemStack(Items.bucket));
     	
@@ -117,7 +116,7 @@ public class IexchangeMod
     @SideOnly(Side.CLIENT)
     public void textureHook(TextureStitchEvent.Post event) 
     {
-	if (event.map.getTextureType() == 0) 
+	if (event.map.getTextureType() == 0)//Если тектура не присвоена
 	{
 		LEnergyFluid.setIcons(lEnergyFluidBlock.getBlockTextureFromSide(1), lEnergyFluidBlock.getBlockTextureFromSide(2));
 		LMatterFluid.setIcons(lMatterFluidBlock.getBlockTextureFromSide(1), lMatterFluidBlock.getBlockTextureFromSide(2));
