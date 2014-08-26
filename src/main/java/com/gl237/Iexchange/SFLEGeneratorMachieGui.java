@@ -6,20 +6,26 @@
 package com.gl237.Iexchange;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.fluids.FluidStack;
 
 import org.lwjgl.opengl.GL11;
 
 public class SFLEGeneratorMachieGui extends GuiContainer{
 
 	private static SFLEGeneratorMachieTileEntity DisInventory;//Обявляем ентити инвентаря
+	private static int FL;
+	
 	
 	public SFLEGeneratorMachieGui(InventoryPlayer inventory, SFLEGeneratorMachieTileEntity tileEntity)
 	{
 		super (new SFLEGeneratorMachieContainer(inventory, tileEntity));
-        	this.DisInventory = tileEntity;//загружаем ентити инвентаря
+		this.DisInventory = tileEntity;//загружаем ентити инвентаря
 	}
 	
 	//Отрисовка переднего слоя
@@ -40,7 +46,8 @@ public class SFLEGeneratorMachieGui extends GuiContainer{
          	this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
          	int i1;
 
-		//Сдесь будем отрисововать Прогресс работы машины
+         	/*
+         	//Сдесь будем отрисововать Прогресс работы машины
          	if (true)
          	{
 			//i1 = this.testInventory.getBurnTimeRemainingScaled(12);
@@ -51,7 +58,59 @@ public class SFLEGeneratorMachieGui extends GuiContainer{
          	//i1 = this.testInventory.getCookProgressScaled(24);
          	i1 = 24;
          	this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
+         	*/
          	//Сдесь будем отрисововать остаток жидкости
+         	drawFluid(DisInventory.getFluid(), j + 104, k + 19, 16, 58, DisInventory.getCapacity());
+	}
+	
+	public void drawFluid(FluidStack fluid, int x, int y, int width, int height, int maxCapacity) {
+		if (fluid == null || fluid.getFluid() == null) {
+			return;
+		}
+		IIcon icon = fluid.getFluid().getIcon(fluid);
+		mc.renderEngine.bindTexture(TextureMap.locationBlocksTexture);
+		setGLColorFromInt(fluid.getFluid().getColor(fluid));
+		int fullX = width / 16;
+		int fullY = height / 16;
+		int lastX = width - fullX * 16;
+		int lastY = height - fullY * 16;
+		int level = fluid.amount * height / maxCapacity;
+		int fullLvl = (height - level) / 16;
+		int lastLvl = (height - level) - fullLvl * 16;
+		for (int i = 0; i < fullX; i++) {
+			for (int j = 0; j < fullY; j++) {
+				if (j >= fullLvl) {
+					drawCutIcon(icon, x + i * 16, y + j * 16, 16, 16, j == fullLvl ? lastLvl : 0);
+				}
+			}
+		}
+		for (int i = 0; i < fullX; i++) {
+			drawCutIcon(icon, x + i * 16, y + fullY * 16, 16, lastY, fullLvl == fullY ? lastLvl : 0);
+		}
+		for (int i = 0; i < fullY; i++) {
+			if (i >= fullLvl) {
+				drawCutIcon(icon, x + fullX * 16, y + i * 16, lastX, 16, i == fullLvl ? lastLvl : 0);
+			}
+		}
+		drawCutIcon(icon, x + fullX * 16, y + fullY * 16, lastX, lastY, fullLvl == fullY ? lastLvl : 0);
+	}
+
+	//The magic is here
+	private void drawCutIcon(IIcon icon, int x, int y, int width, int height, int cut) {
+		Tessellator tess = Tessellator.instance;
+		tess.startDrawingQuads();
+		tess.addVertexWithUV(x, y + height, zLevel, icon.getMinU(), icon.getInterpolatedV(height));
+		tess.addVertexWithUV(x + width, y + height, zLevel, icon.getInterpolatedU(width), icon.getInterpolatedV(height));
+		tess.addVertexWithUV(x + width, y + cut, zLevel, icon.getInterpolatedU(width), icon.getInterpolatedV(cut));
+		tess.addVertexWithUV(x, y + cut, zLevel, icon.getMinU(), icon.getInterpolatedV(cut));
+		tess.draw();
+	}
+	
+	private static void setGLColorFromInt(int color) {
+		float red = (color >> 16 & 255) / 255.0F;
+		float green = (color >> 8 & 255) / 255.0F;
+		float blue = (color & 255) / 255.0F;
+		GL11.glColor4f(red, green, blue, 1.0F);
 	}
 
 }

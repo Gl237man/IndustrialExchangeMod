@@ -251,7 +251,7 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	
 	@Override
 	public FluidStack getFluid() {
-		return FluidRegistry.getFluidStack("liquidenergy", 1000);
+		return FluidRegistry.getFluidStack("liquidenergy", FluidLevel);
 	}
 	@Override
 	public int getFluidAmount() {
