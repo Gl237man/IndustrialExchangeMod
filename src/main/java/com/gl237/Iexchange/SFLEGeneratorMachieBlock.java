@@ -1,3 +1,8 @@
+// SFLEGeneratorMachieBlock.java
+// Block SFLEGenerator
+// Блок SFLE Генератора
+// gl237man
+
 package com.gl237.Iexchange;
 
 import java.util.Random;
@@ -23,14 +28,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 public class SFLEGeneratorMachieBlock extends BlockContainer
 {
+	//Иконки
 	IIcon textureTop;
 	IIcon textureButom;
 	IIcon textureBack;
 	IIcon textureFront;
 	IIcon textureLeft;
 	IIcon textureRight;
-
-	
 	
 	protected SFLEGeneratorMachieBlock(Material mat) {
 		super(mat);
@@ -39,60 +43,61 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
 		this.setResistance(1F);//Установка Взрывозащищоности
 	}
 
-	
-	@Override
-    public boolean onBlockActivated(World world, int x, int y, int z,
-                                    EntityPlayer player, int idk, float what, float these, float are) 
-	 	{
-            TileEntity tileEntity = world.getTileEntity(x, y, z);
-            if (tileEntity == null || player.isSneaking()) 
-            {
-               return false;
-            }
-            player.openGui(IexchangeMod.instance, 0, world, x, y, z);
-            //player.openGui(NanoExcange.instance, 0, world, x, y, z);
-            return true;
-    }
+    //Когда блок активирован пользователем	
+    	@Override
+    	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int idk, float what, float these, float are) 
+    	{
+        	TileEntity tileEntity = world.getTileEntity(x, y, z);//Получаем ентити блока
+        	if (tileEntity == null || player.isSneaking()) //Если блока нет или блок сломан
+        	{
+            		return false;
+        	}
+        
+        	player.openGui(IexchangeMod.instance, 0, world, x, y, z);//Открыть гуи с индексом ноль
+        	return true;
+    	}
 
 	
 	//Тип предмета при добычи
 	@Override
-    public Item getItemDropped(int par1, Random par2Random, int par3)
-    {
+        public Item getItemDropped(int par1, Random par2Random, int par3)
+        {
 		return Item.getItemFromBlock(IexchangeMod.sFLEGeneratorMachieBlock);
-    }
+        }
+        
 	//Количество предметов при добычи
 	@Override
 	public int quantityDropped(Random par1Random)
 	{
-	    return 1;
+	    	return 1;
 	}
 	
-	
+	//Создание ентити при установке в мире
 	@Override
-	public TileEntity createNewTileEntity(World arg0, int arg1) {
-		// TODO Auto-generated method stub
+	public TileEntity createNewTileEntity(World arg0, int arg1) 
+	{
 		return new SFLEGeneratorMachieTileEntity();
 	}
 	
 	//Регистрируем иконки
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerBlockIcons(IIconRegister register) 
-    {
+    	@SideOnly(Side.CLIENT)
+    	@Override
+    	public void registerBlockIcons(IIconRegister register) 
+    	{
 		
-        textureTop = register.registerIcon("iexchangemod:testBlockTop");
-    	textureButom = register.registerIcon("iexchangemod:testBlockButom");
-    	textureBack = register.registerIcon("iexchangemod:testBlockBack");
-    	textureFront = register.registerIcon("iexchangemod:testBlockFront");;
-    	textureLeft = register.registerIcon("iexchangemod:testBlockLeft");
-    	textureRight = register.registerIcon("iexchangemod:testBlockRight");
+        	textureTop = register.registerIcon("iexchangemod:testBlockTop");
+    		textureButom = register.registerIcon("iexchangemod:testBlockButom");
+    		textureBack = register.registerIcon("iexchangemod:testBlockBack");
+    		textureFront = register.registerIcon("iexchangemod:testBlockFront");;
+    		textureLeft = register.registerIcon("iexchangemod:testBlockLeft");
+    		textureRight = register.registerIcon("iexchangemod:testBlockRight");
         
 	}
 	
-    //Установка метадаты в зависимости от положения игрока 
-    @Override
-	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLivingBase entityliving, ItemStack stack) {
+    	//Установка метадаты в зависимости от положения игрока 
+    	@Override
+	public void onBlockPlacedBy(World world, int i, int j, int k, EntityLivingBase entityliving, ItemStack stack) 
+	{
 		super.onBlockPlacedBy(world, i, j, k, entityliving, stack);
 
 		ForgeDirection orientation = get2dOrientation(entityliving);
@@ -100,15 +105,17 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
 		world.setBlockMetadataWithNotify(i, j, k, orientation.getOpposite().ordinal(), 1);
 		
 	}
-    //Утилита для получения направления подсмотренно в BuildCraft
-    public static ForgeDirection get2dOrientation(EntityLivingBase entityliving) {
-		ForgeDirection[] orientationTable = { ForgeDirection.SOUTH,
-				ForgeDirection.WEST, ForgeDirection.NORTH, ForgeDirection.EAST };
+	
+    	//Утилита для получения направления подсмотренно в BuildCraft
+	public static ForgeDirection get2dOrientation(EntityLivingBase entityliving) 
+	{
+		ForgeDirection[] orientationTable = { ForgeDirection.SOUTH, ForgeDirection.WEST, ForgeDirection.NORTH, ForgeDirection.EAST };
 		int orientationIndex = MathHelper.floor_double((entityliving.rotationYaw + 45.0) / 90.0) & 3;
 		return orientationTable[orientationIndex];
 	}
     
-    //Получение Иконки в зависимости от положения обьекта
+    	//Получение Иконки в зависимости от положения обьекта
+    	//ToDo Надо оптимизировать
 	@Override
 	public IIcon getIcon(int i, int j) {
 		switch(j)
