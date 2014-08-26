@@ -1,3 +1,8 @@
+// SFLEGeneratorMachieGui
+// GUI SFLEGenerator
+// ГУИ SFLE Генератора
+// gl237man
+
 package com.gl237.Iexchange;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -9,40 +14,44 @@ import org.lwjgl.opengl.GL11;
 
 public class SFLEGeneratorMachieGui extends GuiContainer{
 
-	private static SFLEGeneratorMachieTileEntity DisInventory;
+	private static SFLEGeneratorMachieTileEntity DisInventory;//Обявляем ентити инвентаря
 	
 	public SFLEGeneratorMachieGui(InventoryPlayer inventory, SFLEGeneratorMachieTileEntity tileEntity)
 	{
 		super (new SFLEGeneratorMachieContainer(inventory, tileEntity));
-        this.DisInventory = tileEntity;
+        	this.DisInventory = tileEntity;//загружаем ентити инвентаря
 	}
-
-	protected void drawGuiContainerForegroundLayer(int par1, int par2)
-    {
-            String s = this.DisInventory.isInvNameLocalized() ? this.DisInventory.getInventoryName() : StatCollector.translateToLocal(this.DisInventory.getInventoryName());
-            this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
-            this.fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
-    }
 	
+	//Отрисовка переднего слоя
+	protected void drawGuiContainerForegroundLayer(int par1, int par2)
+    	{
+        	String s = this.DisInventory.isInvNameLocalized() ? this.DisInventory.getInventoryName() : StatCollector.translateToLocal(this.DisInventory.getInventoryName()); Получаем имя инвентаря
+        	this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);//Отрисовываем имя
+        	this.fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);//отрисовываем имя инвентаря пользователя
+    	}
+	
+	//Отрисовка фона
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
-		 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		 this.mc.getTextureManager().bindTexture(new ResourceLocation("iexchangemod", "textures/gui/SFgenGui.png"));
-         int k = (this.width - this.xSize) / 2;
-         int l = (this.height - this.ySize) / 2;
-         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
-         int i1;
+		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+		this.mc.getTextureManager().bindTexture(new ResourceLocation("iexchangemod", "textures/gui/SFgenGui.png"));
+         	int k = (this.width - this.xSize) / 2;
+         	int l = (this.height - this.ySize) / 2;
+         	this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
+         	int i1;
 
-         if (true)
-         {
-                 //i1 = this.testInventory.getBurnTimeRemainingScaled(12);
-        	     i1=12;
-                 this.drawTexturedModalRect(k + 56, l + 36 + 12 - i1, 176, 12 - i1, 14, i1 + 2);
-         }
+		//Сдесь будем отрисововать Прогресс работы машины
+         	if (true)
+         	{
+			//i1 = this.testInventory.getBurnTimeRemainingScaled(12);
+        	     	i1=12;
+                	this.drawTexturedModalRect(k + 56, l + 36 + 12 - i1, 176, 12 - i1, 14, i1 + 2);
+         	}
 
-         //i1 = this.testInventory.getCookProgressScaled(24);
-         i1 = 24;
-         this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
+         	//i1 = this.testInventory.getCookProgressScaled(24);
+         	i1 = 24;
+         	this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
+         	//Сдесь будем отрисововать остаток жидкости
 	}
 
 }
