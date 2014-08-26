@@ -9,6 +9,7 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
@@ -39,6 +40,7 @@ public class SFLEGeneratorMachieGui extends GuiContainer{
 	//Отрисовка фона
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
+		
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.mc.getTextureManager().bindTexture(new ResourceLocation("iexchangemod", "textures/gui/SFgenGui.png"));
          	int k = (this.width - this.xSize) / 2;
