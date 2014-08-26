@@ -9,15 +9,14 @@ public class IECreativeTab extends CreativeTabs {
 
 	public IECreativeTab(int TabID, String TabName) {
 		super(TabID, TabName);
-		// TODO Auto-generated constructor stub
 	}
 
+	//Получение иконки креатив таба
 	@Override
 	public Item getTabIconItem() {
-		// TODO Auto-generated method stub
 		return new ItemStack(IexchangeMod.lEnergyBucketItem,1).getItem();
 	}
-
+	//Получение названия вкладки
 	public String getTranslatedTabLabel()
 	{
 		return "IExchange";
