@@ -202,6 +202,8 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 		return true;
 	}
 	//Обработка жидкостей
+	
+	//Слив Жидкости
 	@Override
 	public FluidStack drain(int arg0, boolean arg1) {
 		if (FluidLevel>0 && arg1)
@@ -224,6 +226,7 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 		return null;
 	}
 	
+	//Залив жидкости
 	@Override
 	public int fill(FluidStack arg0, boolean arg1) {
 		if (arg0.fluidID == getFluid().fluidID && arg1)
@@ -244,31 +247,43 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 		return 0;
 	}
 	
+	//Получить обьем
 	@Override
 	public int getCapacity() {
 		return 10000;
 	}
 	
+	//Получить состав
 	@Override
 	public FluidStack getFluid() {
 		return FluidRegistry.getFluidStack("liquidenergy", FluidLevel);
 	}
+	
+	//Получить велечену остатка жидкости
 	@Override
 	public int getFluidAmount() {
 		return FluidLevel;
 	}
+	
+	//Получить информацию о баке
 	@Override
 	public FluidTankInfo getInfo() {
 		return new FluidTankInfo(getFluid(), 10000);
 	}
+	
+	//Можно ли сливать
 	@Override
 	public boolean canDrain(ForgeDirection arg0, Fluid arg1) {
 		return arg1.getID() == getFluid().fluidID;
 	}
+	
+	//Можно ли наполнять
 	@Override
 	public boolean canFill(ForgeDirection arg0, Fluid arg1) {
 		return arg1.getID() == getFluid().fluidID;
 	}
+	
+	//Слив конкретного количества конкретной жидкости
 	@Override
 	public FluidStack drain(ForgeDirection arg0, FluidStack arg1, boolean arg2) {
 		
@@ -291,6 +306,8 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 		}
 		return null;
 	}
+	
+	//Слив любой жидкости с определеной стороны
 	@Override
 	public FluidStack drain(ForgeDirection arg0, int arg1, boolean arg2) {
 		// TODO Auto-generated method stub
@@ -317,6 +334,8 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 		return null;
 		
 	}
+	
+	//Заливка конкретной жидкости
 	@Override
 	public int fill(ForgeDirection arg0, FluidStack arg1, boolean arg2) {
 		
@@ -337,6 +356,8 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 		}
 		return 0;
 	}
+	
+	//Получить информацию о всех житкостях в контейнере
 	@Override
 	public FluidTankInfo[] getTankInfo(ForgeDirection arg0) {
 		FluidTankInfo[] fm = new FluidTankInfo[1];
