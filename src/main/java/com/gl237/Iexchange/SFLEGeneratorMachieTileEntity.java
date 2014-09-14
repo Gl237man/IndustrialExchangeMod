@@ -20,6 +20,8 @@ import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.fluids.IFluidTank;
 
+import static net.minecraft.tileentity.TileEntityFurnace.getItemBurnTime;
+
 public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInventory, IFluidTank ,IFluidHandler
 {
 
@@ -33,7 +35,7 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	//Событие при закрытии инвентаря
 	@Override
 	public void closeInventory() {
-		// TODO Auto-generated method stub
+		// Нечего не делать
 	}
 	
 	//Получение предметов из инвентаря i номер стака j Количество
@@ -104,28 +106,23 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	// Имеет ли инвентарь свое название
 	@Override
 	public boolean hasCustomInventoryName() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	//Подходит ли стак в определенный слот
 	@Override
-	public boolean isItemValidForSlot(int arg0, ItemStack arg1) {
-		// TODO Надо получать только топливо
-		return true;
-	}
+	public boolean isItemValidForSlot(int slot, ItemStack stack) {
+        //Получаем только топливо
+        return getItemBurnTime(stack) > 0;
+    }
 	
 	//Можно ли использовать игроком?
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
 		if (worldObj == null)
-	        {
-	            return true;
-	        }
+            return true;
 	        if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-	        {
-	            return false;
-	        }
+                return false;
 	        return entityplayer.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <= 64D;
 	}
 
@@ -198,7 +195,6 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 
 	//Имя инвентаря локализовано
 	public boolean isInvNameLocalized() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 	//Обработка жидкостей
@@ -310,10 +306,7 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	//Слив любой жидкости с определеной стороны
 	@Override
 	public FluidStack drain(ForgeDirection arg0, int arg1, boolean arg2) {
-		// TODO Auto-generated method stub
-		//return FluidRegistry.getFluidStack("liquidenergy", arg1);
-		//return null;
-		
+
 		if (FluidLevel>0)
 		{
 			if (FluidLevel>=arg1)

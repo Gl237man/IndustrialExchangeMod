@@ -5,19 +5,13 @@
 
 package com.gl237.Iexchange;
 
-import java.util.Random;
-
-import javax.swing.Icon;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -25,6 +19,8 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
+import java.util.Random;
 
 public class SFLEGeneratorMachieBlock extends BlockContainer
 {
@@ -88,7 +84,7 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
         	textureTop = register.registerIcon("iexchangemod:testBlockTop");
     		textureButom = register.registerIcon("iexchangemod:testBlockButom");
     		textureBack = register.registerIcon("iexchangemod:testBlockBack");
-    		textureFront = register.registerIcon("iexchangemod:testBlockFront");;
+    		textureFront = register.registerIcon("iexchangemod:testBlockFront");
     		textureLeft = register.registerIcon("iexchangemod:testBlockLeft");
     		textureRight = register.registerIcon("iexchangemod:testBlockRight");
         
@@ -121,7 +117,7 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
 		switch(j)
 		{
 		case 2:
-			switch (i) 
+			switch (i)
 			{
 			case 0:
 				return textureButom;
@@ -138,9 +134,9 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
 			default:
 				return textureFront;
 			}
-			
+
 		case 3:
-			switch (i) 
+			switch (i)
 			{
 			case 0:
 				return textureButom;
@@ -157,9 +153,9 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
 			default:
 				return textureFront;
 			}
-			
+
 		case 4:
-			switch (i) 
+			switch (i)
 			{
 			case 0:
 				return textureButom;
@@ -176,9 +172,9 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
 			default:
 				return textureFront;
 			}
-			
+
 		case 5:
-			switch (i) 
+			switch (i)
 			{
 			case 0:
 				return textureButom;
@@ -195,9 +191,9 @@ public class SFLEGeneratorMachieBlock extends BlockContainer
 			default:
 				return textureFront;
 			}
-			
+
 		default:
-			switch (i) 
+			switch (i)
 			{
 			case 0:
 				return textureButom;

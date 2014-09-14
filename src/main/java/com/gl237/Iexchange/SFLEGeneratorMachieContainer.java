@@ -11,10 +11,12 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
+import static net.minecraft.tileentity.TileEntityFurnace.getItemBurnTime;
+
 public class SFLEGeneratorMachieContainer extends Container {
 
 	private SFLEGeneratorMachieTileEntity Mesh;//Енитити SFLE Генератора
-	
+
 	public SFLEGeneratorMachieContainer(InventoryPlayer par1InventoryPlayer, SFLEGeneratorMachieTileEntity TileEntitydisasm)
 	{
 		this.Mesh = TileEntitydisasm; //Присваеваем Ентити 
@@ -37,7 +39,7 @@ public class SFLEGeneratorMachieContainer extends Container {
                 	this.addSlotToContainer(new Slot(par1InventoryPlayer, i, 8 + i * 18, 142));
         	}
 	}
-			
+
 	 @Override
 	 public ItemStack transferStackInSlot(EntityPlayer p, int i)//Оброботка шифтклик!
 	 {
@@ -46,9 +48,15 @@ public class SFLEGeneratorMachieContainer extends Container {
 	        Slot slot = (Slot) inventorySlots.get(i);//Получаем слот по индексу
 	        if (slot != null && slot.getHasStack())//Если Слот существует и имеет предметы
 	        {
+
 	            ItemStack itemstack1 = slot.getStack();//Получаем предметы из слота в стак
 	            itemstack = itemstack1.copy();//Копируем стак
-	            
+
+                if (getItemBurnTime(itemstack1) < 1)//Если предмет не топливо
+                {
+                    return null;
+                }
+
 	            if (i < InvSize)//Если указатель поподает внутрь инвентаря
 	            {
 	                if (!mergeItemStack(itemstack1, InvSize, inventorySlots.size(), true))//Перемещяем предметы в инвентарь
@@ -64,7 +72,7 @@ public class SFLEGeneratorMachieContainer extends Container {
 	            {
 	                return null;//Если не перемистилось Возвращяем пустоту
 	            }
-	            
+
 	            if (itemstack1.stackSize == 0)//Если стак пустой
 	            {
 	                slot.putStack(null);//Очищяем слот
