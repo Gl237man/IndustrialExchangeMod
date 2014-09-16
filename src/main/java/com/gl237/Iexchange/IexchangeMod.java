@@ -1,16 +1,5 @@
 package com.gl237.Iexchange;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -20,8 +9,18 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.TextureStitchEvent;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidContainerRegistry;
+import net.minecraftforge.fluids.FluidRegistry;
+
+import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 @Mod(modid = IexchangeMod.MODID, version = IexchangeMod.VERSION)
 public class IexchangeMod
@@ -49,27 +48,29 @@ public class IexchangeMod
     @EventHandler
     public void init(FMLInitializationEvent event)
     {
+        //event.
     	instance = this;//Без этого почемуто не работает
     	InitMachines();
     	InitFuilds();
-    	MinecraftForge.EVENT_BUS.register(this); 
+        InitBuckets();
+
+    	EVENT_BUS.register(this);
     }
     //Инициализация машин
     private void InitMachines()
     {
-	//Регистрируем блок SFLE Генератора
+	    //Регистрируем блок SFLE Генератора
     	sFLEGeneratorMachieBlock = new SFLEGeneratorMachieBlock(Material.iron).setBlockName("sFLEGeneratorMachieBlock");
     	GameRegistry.registerBlock(sFLEGeneratorMachieBlock, MODID + "_" + sFLEGeneratorMachieBlock.getUnlocalizedName());
-   	GameRegistry.registerTileEntity(SFLEGeneratorMachieTileEntity.class, "SFLEGeneratorMachieContainer");//Добовляем ентитти
-  	
-    	NetworkRegistry.INSTANCE.registerGuiHandler(IexchangeMod.instance, new MyGuiHandler());//Регистрируем гуи хендлер
+   	    GameRegistry.registerTileEntity(SFLEGeneratorMachieTileEntity.class, "SFLEGeneratorMachieContainer");//Добовляем ентитти
+  	    //Регистрируем гуи хендлеры
+    	NetworkRegistry.INSTANCE.registerGuiHandler(IexchangeMod.instance, new MyGuiHandler());
 
 
     }
     //Инициализация жидкосией
     private void InitFuilds()
     {
-    	
     	LEnergyFluid = new Fluid("LiquidEnergy");
         LMatterFluid = new Fluid("LiquidMatter");
     	
@@ -94,33 +95,34 @@ public class IexchangeMod
     	//Устанавливаем имена жидкостей
     	LEnergyFluid.setUnlocalizedName(lEnergyFluidBlock.getUnlocalizedName());
     	LMatterFluid.setUnlocalizedName(lMatterFluidBlock.getUnlocalizedName());
-    	
-    	//Обявляем ведерки
-    	lEnergyBucketItem = new LEnergyBucketItem(lEnergyFluidBlock);
-    	lMatterBucketItem = new LEnergyBucketItem(lMatterFluidBlock);
-    	//Именуем ведерки
-    	lEnergyBucketItem.setUnlocalizedName("lEnergyBucketItem").setContainerItem(Items.bucket);
-    	lMatterBucketItem.setUnlocalizedName("lMatterBucketItem").setContainerItem(Items.bucket);
-    	//Регистрируем ведерки
-    	GameRegistry.registerItem(lEnergyBucketItem, "lEnergyBucketItem");
-    	GameRegistry.registerItem(lMatterBucketItem, "lMatterBucketItem");
-    	//Регистрируем ведерки как контейнеры с жидкостью
-    	FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack("liquidenergy", FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(lEnergyBucketItem), new ItemStack(Items.bucket));
-    	FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack("liquidmatter", FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(lMatterBucketItem), new ItemStack(Items.bucket));
-    	
     }
 
-    
+    private void InitBuckets() {
+        //Обявляем ведерки
+        lEnergyBucketItem = new LEnergyBucketItem(lEnergyFluidBlock);
+        lMatterBucketItem = new LMatterBucketItem(lMatterFluidBlock);
+        //Именуем ведерки
+        lEnergyBucketItem.setUnlocalizedName("lEnergyBucketItem").setContainerItem(Items.bucket);
+        lMatterBucketItem.setUnlocalizedName("lMatterBucketItem").setContainerItem(Items.bucket);
+        //Регистрируем ведерки
+        GameRegistry.registerItem(lEnergyBucketItem, "lEnergyBucketItem");
+        GameRegistry.registerItem(lMatterBucketItem, "lMatterBucketItem");
+        //Регистрируем ведерки как контейнеры с жидкостью
+        FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack("liquidenergy", FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(lEnergyBucketItem), new ItemStack(Items.bucket));
+        FluidContainerRegistry.registerFluidContainer(FluidRegistry.getFluidStack("liquidmatter", FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(lMatterBucketItem), new ItemStack(Items.bucket));
+    }
+
+
     //Перехватываем событие получение текстуры для жидкостей
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public void textureHook(TextureStitchEvent.Post event) 
+    public void textureHook(TextureStitchEvent.Post event)
     {
-	if (event.map.getTextureType() == 0)//Если тектура не присвоена
-	{
-		LEnergyFluid.setIcons(lEnergyFluidBlock.getBlockTextureFromSide(1), lEnergyFluidBlock.getBlockTextureFromSide(2));
-		LMatterFluid.setIcons(lMatterFluidBlock.getBlockTextureFromSide(1), lMatterFluidBlock.getBlockTextureFromSide(2));
-	}
+        if (event.map.getTextureType() == 0)//Если тектура не присвоена
+        {
+            LEnergyFluid.setIcons(lEnergyFluidBlock.getBlockTextureFromSide(1), lEnergyFluidBlock.getBlockTextureFromSide(2));
+            LMatterFluid.setIcons(lMatterFluidBlock.getBlockTextureFromSide(1), lMatterFluidBlock.getBlockTextureFromSide(2));
+        }
     }
     
     

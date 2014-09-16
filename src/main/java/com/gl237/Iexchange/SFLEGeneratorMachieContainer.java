@@ -27,23 +27,21 @@ public class SFLEGeneratorMachieContainer extends Container {
 	{
 		this.machieTileEntity = tileEntity; //Присваеваем Ентити
 		//Добовляем слоты контейнера
-        	this.addSlotToContainer(new Slot(tileEntity, 0, 52, 41));
-        	
-        	//Добовляем слоты инвентаря игрока
-        	int i;
+        this.addSlotToContainer(new Slot(tileEntity, 0, 52, 41));
 
-        	for (i = 0; i < 3; ++i)
-        	{
-                	for (int j = 0; j < 9; ++j)
-                	{
-                        	this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-                	}
-        	}
+        //Добовляем слоты инвентаря игрока
+        for (int i = 0; i < 3; ++i)
+        {
+                for (int j = 0; j < 9; ++j)
+                {
+                        this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                }
+        }
 
-        	for (i = 0; i < 9; ++i)
-        	{
-                	this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
-        	}
+        for (int i = 0; i < 9; ++i)
+        {
+                this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
+        }
 	}
 
     //Добовляем прогрессбары
@@ -60,17 +58,14 @@ public class SFLEGeneratorMachieContainer extends Container {
     {
         super.detectAndSendChanges();
 
-        for (int i = 0; i < this.crafters.size(); ++i)
-        {
-            ICrafting icrafting = (ICrafting)this.crafters.get(i);
+        for (Object crafter : this.crafters) {
+            ICrafting icrafting = (ICrafting) crafter;
 
-            if (this.lastProgress != this.machieTileEntity.Progress)
-            {
+            if (this.lastProgress != this.machieTileEntity.Progress) {
                 icrafting.sendProgressBarUpdate(this, 0, this.machieTileEntity.Progress);
             }
 
-            if (this.lastFluidLevel != this.machieTileEntity.FluidLevel)
-            {
+            if (this.lastFluidLevel != this.machieTileEntity.FluidLevel) {
                 icrafting.sendProgressBarUpdate(this, 1, this.machieTileEntity.FluidLevel);
             }
 

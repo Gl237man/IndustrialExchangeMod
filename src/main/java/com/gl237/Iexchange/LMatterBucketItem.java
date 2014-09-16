@@ -19,8 +19,8 @@ public class LMatterBucketItem extends ItemBucket {
 	private String iconName;
 	
 	// block это блок жидкости связанный с ведром
-	public LMatterBucketItem(Block block) {
-	
+	public LMatterBucketItem(Block block)
+    {
 		this(block, IexchangeMod.IECreativeTab);
 	}
 
@@ -32,16 +32,16 @@ public class LMatterBucketItem extends ItemBucket {
 
 	//Регистрируем имя предмета
 	@Override
-	public Item setUnlocalizedName(String par1Str) {
-		iconName = par1Str;
-		return super.setUnlocalizedName(par1Str);
+	public Item setUnlocalizedName(String icoName) {
+		iconName = icoName;
+		return super.setUnlocalizedName(icoName);
 	}
 
 	//Регистрируем иконку предмета
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister par1IconRegister) {
-		this.itemIcon = par1IconRegister.registerIcon("iexchangemod:" + iconName);
+	public void registerIcons(IIconRegister iconRegister) {
+		this.itemIcon = iconRegister.registerIcon("iexchangemod:" + iconName);
 	}
 	
 	

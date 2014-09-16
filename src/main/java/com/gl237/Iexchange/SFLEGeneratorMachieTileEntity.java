@@ -41,22 +41,22 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 		// Нечего не делать
 	}
 	
-	//Получение предметов из инвентаря i номер стака j Количество
+	//Получение предметов из инвентаря stackNum номер стака amount Количество
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		if (InvItemStacks[i] != null)//Если слот не пуст
+	public ItemStack decrStackSize(int stackNum, int amount) {
+		if (InvItemStacks[stackNum] != null)//Если слот не пуст
         	{
-            		if (InvItemStacks[i].stackSize <= j)//Если текущее количество меньше или равно запрашиваемому
+            		if (InvItemStacks[stackNum].stackSize <= amount)//Если текущее количество меньше или равно запрашиваемому
             		{
-                		ItemStack itemstack = InvItemStacks[i];//Берем копию всех предметов
-                		InvItemStacks[i] = null;//Очищяем слот
+                		ItemStack itemstack = InvItemStacks[stackNum];//Берем копию всех предметов
+                		InvItemStacks[stackNum] = null;//Очищяем слот
                 		markDirty();//Маркируем что ентити изменился
                 		return itemstack;//Возвращяем стак
             		}
-            		ItemStack itemstack1 = InvItemStacks[i].splitStack(j);//Берем часть стака и копируем в новый обьект
-            		if (InvItemStacks[i].stackSize == 0)//Если в стаке нечего не осталось
+            		ItemStack itemstack1 = InvItemStacks[stackNum].splitStack(amount);//Берем часть стака и копируем в новый обьект
+            		if (InvItemStacks[stackNum].stackSize == 0)//Если в стаке нечего не осталось
             		{
-            			InvItemStacks[i] = null;//Очищяем стак
+            			InvItemStacks[stackNum] = null;//Очищяем стак
             		}
             		markDirty();//Маркируем что ентити изменился
             		return itemstack1;//Возврощем часть стака
@@ -88,16 +88,16 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 
 	//Получаем стак в заданном слоте
 	@Override
-	public ItemStack getStackInSlot(int i) {
-		return this.InvItemStacks[i];
+	public ItemStack getStackInSlot(int slotNum) {
+		return this.InvItemStacks[slotNum];
 	}
 	//Получаем стак при закрытии
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		if (this.InvItemStacks[i] != null)
+	public ItemStack getStackInSlotOnClosing(int slotNum) {
+		if (this.InvItemStacks[slotNum] != null)
         	{
-                	ItemStack itemstack = this.InvItemStacks[i];
-                	this.InvItemStacks[i] = null;
+                	ItemStack itemstack = this.InvItemStacks[slotNum];
+                	this.InvItemStacks[slotNum] = null;
                 	return itemstack;
         	}
         	else
@@ -122,44 +122,46 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	//Можно ли использовать игроком?
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		if (worldObj == null)
-            return true;
-	        if (worldObj.getTileEntity(xCoord, yCoord, zCoord) != this)
-                return false;
-	        return entityplayer.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <= 64D;
-	}
+        return worldObj == null ||
+               (worldObj.getTileEntity(xCoord, yCoord, zCoord) == this &&
+               entityplayer.getDistanceSq((double) xCoord + 0.5D, (double) yCoord + 0.5D, (double) zCoord + 0.5D) <= 64D);
+    }
 
 	//При открытии инвентаря
 	@Override
 	public void openInventory() {
-		FluidLevel = 5000;
-		// TODO Auto-generated method stub
+		//Нечего не делаем метод не вызывается ?????
 	}
 	
 	//Установить Предметы в слот
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) 
+	public void setInventorySlotContents(int slotNum, ItemStack itemStack)
 	{
-		this.InvItemStacks[i] = itemstack; //Копируем предметы в слот
+		this.InvItemStacks[slotNum] = itemStack; //Копируем предметы в слот
 
-        	if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit()) //Если предметов сильно много
+        	if (itemStack != null && itemStack.stackSize > this.getInventoryStackLimit()) //Если предметов сильно много
         	{
-        		itemstack.stackSize = this.getInventoryStackLimit();//Обрезаем по максимуму
+        		itemStack.stackSize = this.getInventoryStackLimit();//Обрезаем по максимуму
         	}
 	}
 	
 	//Сдесь будет событие обновления 
 	public void updateEntity()
     	{
-		 
+          //TODO Удалять топливо сжигать его итд))
+		  /*if (FluidLevel<this.getCapacity())
+          {
+                FluidLevel+=20;
+          }
+          */
     	}
     	
-    	//Чтение состояния ентити
+    //Чтение состояния ентити
 	@Override
-	public void readFromNBT(NBTTagCompound nbttagcompound)
+	public void readFromNBT(NBTTagCompound nbtTagCompound)
 	{
-		super.readFromNBT(nbttagcompound);
-		NBTTagList nbttaglist = nbttagcompound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
+		super.readFromNBT(nbtTagCompound);
+		NBTTagList nbttaglist = nbtTagCompound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
 		InvItemStacks = new ItemStack[getSizeInventory()];
 		for (int i = 0; i < nbttaglist.tagCount(); i++)
 		{
@@ -170,16 +172,15 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 				InvItemStacks[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
-		FluidLevel = nbttagcompound.getInteger("FluidLevel");
-		//facing = nbttagcompound.getByte("facing");
-	       
+		FluidLevel = nbtTagCompound.getInteger("FluidLevel");
+        Progress = nbtTagCompound.getInteger("FluidLevel");
 	}
 	
 	//Запись состояния
 	@Override
-	public void writeToNBT(NBTTagCompound nbttagcompound)
+	public void writeToNBT(NBTTagCompound nbtTagCompound)
 	{
-		super.writeToNBT(nbttagcompound);
+		super.writeToNBT(nbtTagCompound);
 		NBTTagList nbttaglist = new NBTTagList();
 		for (int i = 0; i < InvItemStacks.length; i++)
 		{
@@ -191,9 +192,9 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 				nbttaglist.appendTag(nbttagcompound1);
 			}
 		}
-	        nbttagcompound.setTag("Items", nbttaglist);
-	        nbttagcompound.setInteger("FluidLevel", FluidLevel);
-	        //nbttagcompound.setByte("facing", (byte)facing);
+        nbtTagCompound.setTag("Items", nbttaglist);
+        nbtTagCompound.setInteger("FluidLevel", FluidLevel);
+        nbtTagCompound.setInteger("Progress", Progress);
 	}
 
 	//Имя инвентаря локализовано
@@ -204,22 +205,22 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	
 	//Слив Жидкости
 	@Override
-	public FluidStack drain(int arg0, boolean arg1) {
-		if (FluidLevel>0 && arg1)
+	public FluidStack drain(int amount, boolean doDrain) {
+		if (FluidLevel>0 && doDrain)
 		{
-			if (FluidLevel>=arg0)
+			if (FluidLevel>=amount)
 			{
-				FluidStack f = FluidRegistry.getFluidStack("liquidenergy", arg0);
-				FluidLevel-=arg0;
+				FluidStack fluidStack = FluidRegistry.getFluidStack("liquidenergy", amount);
+				FluidLevel-=amount;
 				markDirty();
-				return f;
+				return fluidStack;
 			}
 			else
 			{
-				FluidStack f = FluidRegistry.getFluidStack("liquidenergy", FluidLevel);
+				FluidStack fluidStack = FluidRegistry.getFluidStack("liquidenergy", FluidLevel);
 				FluidLevel-=FluidLevel;
 				markDirty();
-				return f;
+				return fluidStack;
 			}
 		}
 		return null;
@@ -227,14 +228,14 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	
 	//Залив жидкости
 	@Override
-	public int fill(FluidStack arg0, boolean arg1) {
-		if (arg0.fluidID == getFluid().fluidID && arg1)
+	public int fill(FluidStack fluidStack, boolean doFill) {
+		if (fluidStack.fluidID == getFluid().fluidID && doFill)
 		{
-			if (arg0.amount > (getCapacity()-FluidLevel))
+			if (fluidStack.amount > (getCapacity()-FluidLevel))
 			{
-				FluidLevel+=arg0.amount;
+				FluidLevel+=fluidStack.amount;
 				markDirty();
-				return arg0.amount;
+				return fluidStack.amount;
 			}
 			else
 			{
@@ -272,35 +273,36 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	
 	//Можно ли сливать
 	@Override
-	public boolean canDrain(ForgeDirection arg0, Fluid arg1) {
-		return arg1.getID() == getFluid().fluidID;
+	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+		return fluid.getID() == getFluid().fluidID;
 	}
 	
 	//Можно ли наполнять
 	@Override
-	public boolean canFill(ForgeDirection arg0, Fluid arg1) {
-		return arg1.getID() == getFluid().fluidID;
+	public boolean canFill(ForgeDirection from, Fluid fluid) {
+		return fluid.getID() == getFluid().fluidID;
 	}
 	
 	//Слив конкретного количества конкретной жидкости
 	@Override
-	public FluidStack drain(ForgeDirection arg0, FluidStack arg1, boolean arg2) {
+	public FluidStack drain(ForgeDirection from, FluidStack fluidStack, boolean doDrain)
+    {
 		
-		if (FluidLevel>0 && arg2)
+		if (FluidLevel>0 && doDrain)
 		{
-			if (FluidLevel>=arg1.amount)
+			if (FluidLevel>=fluidStack.amount)
 			{
-				FluidStack f = FluidRegistry.getFluidStack("liquidenergy", arg1.amount);
-				FluidLevel-=arg1.amount;
+				FluidStack fluidStack1 = FluidRegistry.getFluidStack("liquidenergy", fluidStack.amount);
+				FluidLevel-=fluidStack.amount;
 				markDirty();
-				return f;
+				return fluidStack1;
 			}
 			else
 			{
-				FluidStack f = FluidRegistry.getFluidStack("liquidenergy", FluidLevel);
+				FluidStack fluidStack1 = FluidRegistry.getFluidStack("liquidenergy", FluidLevel);
 				FluidLevel-=FluidLevel;
 				markDirty();
-				return f;
+				return fluidStack1;
 			}
 		}
 		return null;
@@ -308,23 +310,24 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	
 	//Слив любой жидкости с определеной стороны
 	@Override
-	public FluidStack drain(ForgeDirection arg0, int arg1, boolean arg2) {
+	public FluidStack drain(ForgeDirection from, int amount, boolean doDrain)
+    {
 
 		if (FluidLevel>0)
 		{
-			if (FluidLevel>=arg1)
+			if (FluidLevel>=amount)
 			{
-				FluidStack f = FluidRegistry.getFluidStack("liquidenergy", arg1);
-				FluidLevel-=arg1;
+				FluidStack fluidStack = FluidRegistry.getFluidStack("liquidenergy", amount);
+				FluidLevel-=amount;
 				markDirty();
-				return f;
+				return fluidStack;
 			}
 			else
 			{
-				FluidStack f = FluidRegistry.getFluidStack("liquidenergy", FluidLevel);
+				FluidStack fluidStack = FluidRegistry.getFluidStack("liquidenergy", FluidLevel);
 				FluidLevel-=FluidLevel;
 				markDirty();
-				return f;
+				return fluidStack;
 			}
 		}
 		return null;
@@ -333,15 +336,15 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	
 	//Заливка конкретной жидкости
 	@Override
-	public int fill(ForgeDirection arg0, FluidStack arg1, boolean arg2) {
+	public int fill(ForgeDirection from, FluidStack fluidStack, boolean doFill) {
 		
-		if (arg1.fluidID == getFluid().fluidID && arg2)
+		if (fluidStack.fluidID == getFluid().fluidID && doFill)
 		{
-			if (arg1.amount + FluidLevel <= getCapacity())
+			if (fluidStack.amount + FluidLevel <= getCapacity())
 			{
-				FluidLevel+=arg1.amount;
+				FluidLevel+=fluidStack.amount;
 				markDirty();
-				return arg1.amount;
+				return fluidStack.amount;
 			}
 			else
 			{
@@ -355,10 +358,11 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 	
 	//Получить информацию о всех житкостях в контейнере
 	@Override
-	public FluidTankInfo[] getTankInfo(ForgeDirection arg0) {
-		FluidTankInfo[] fm = new FluidTankInfo[1];
-		fm[0] = new FluidTankInfo(getFluid(), 10000);
-		return fm;
+	public FluidTankInfo[] getTankInfo(ForgeDirection from)
+    {
+		FluidTankInfo[] fluidTankInfos = new FluidTankInfo[1];
+		fluidTankInfos[0] = new FluidTankInfo(getFluid(), 10000);
+		return fluidTankInfos;
 	}
 	 
 
