@@ -9,30 +9,26 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.fluids.FluidStack;
-
 import org.lwjgl.opengl.GL11;
 
 public class SFLEGeneratorMachieGui extends GuiContainer{
 
-	private static SFLEGeneratorMachieTileEntity DisInventory;//Обявляем ентити инвентаря
-	private static int FL;
-	
-	
-	public SFLEGeneratorMachieGui(InventoryPlayer inventory, SFLEGeneratorMachieTileEntity tileEntity)
+	private static SFLEGeneratorMachieTileEntity machieTileEntity;//Обявляем ентити инвентаря
+
+    public SFLEGeneratorMachieGui(InventoryPlayer inventory, SFLEGeneratorMachieTileEntity tileEntity)
 	{
 		super (new SFLEGeneratorMachieContainer(inventory, tileEntity));
-		this.DisInventory = tileEntity;//загружаем ентити инвентаря
+		machieTileEntity = tileEntity;//загружаем ентити инвентаря
 	}
 	
 	//Отрисовка переднего слоя
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
     	{
-        	String s = this.DisInventory.isInvNameLocalized() ? this.DisInventory.getInventoryName() : StatCollector.translateToLocal(this.DisInventory.getInventoryName());// Получаем имя инвентаря
+        	String s = machieTileEntity.isInvNameLocalized() ? machieTileEntity.getInventoryName() : StatCollector.translateToLocal(machieTileEntity.getInventoryName());// Получаем имя инвентаря
         	this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);//Отрисовываем имя
         	this.fontRendererObj.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);//отрисовываем имя инвентаря пользователя
     	}
@@ -42,27 +38,34 @@ public class SFLEGeneratorMachieGui extends GuiContainer{
 	protected void drawGuiContainerBackgroundLayer(float f, int i, int j) {
 		
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        //Биндем текстуру инвентаря
 		this.mc.getTextureManager().bindTexture(new ResourceLocation("iexchangemod", "textures/gui/SFgenGui.png"));
-         	int k = (this.width - this.xSize) / 2;
-         	int l = (this.height - this.ySize) / 2;
-         	this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
-         	int i1;
+        //Рсчитываем наяальные точки для отрисовки инвентаря
+        int startX = (this.width - this.xSize) / 2;
+        int startY = (this.height - this.ySize) / 2;
+        //Отрисовываем бекграунд
+        this.drawTexturedModalRect(startX, startY, 0, 0, this.xSize, this.ySize);
+        //int i1;
 
-         	/*
-         	//Сдесь будем отрисововать Прогресс работы машины
-         	if (true)
-         	{
-			//i1 = this.testInventory.getBurnTimeRemainingScaled(12);
-        	     	i1=12;
-                	this.drawTexturedModalRect(k + 56, l + 36 + 12 - i1, 176, 12 - i1, 14, i1 + 2);
-         	}
+        /*
+        //Сдесь будем отрисововать Прогресс работы машины
+        if (true)
+        {
+        //i1 = this.testInventory.getBurnTimeRemainingScaled(12);
+                i1=12;
+                this.drawTexturedModalRect(k + 56, l + 36 + 12 - i1, 176, 12 - i1, 14, i1 + 2);
+        }
 
-         	//i1 = this.testInventory.getCookProgressScaled(24);
-         	i1 = 24;
-         	this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
-         	*/
-         	//Сдесь будем отрисововать остаток жидкости
-         	drawFluid(DisInventory.getFluid(), j + 104, k + 19, 16, 58, DisInventory.getCapacity());
+        //i1 = this.testInventory.getCookProgressScaled(24);
+        i1 = 24;
+        this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
+        */
+
+        //Отрисовываем жидкость
+        drawFluid(machieTileEntity.getFluid(), startX + 106, startY + 19, 16, 58, machieTileEntity.getCapacity());
+        //Перерисовываем шкалу
+        this.mc.getTextureManager().bindTexture(new ResourceLocation("iexchangemod", "textures/gui/SFgenGui.png"));
+        this.drawTexturedModalRect(startX + 106, startY + 19, 176, 0, 16, 58);
 	}
 	
 	public void drawFluid(FluidStack fluid, int x, int y, int width, int height, int maxCapacity) {
@@ -97,6 +100,7 @@ public class SFLEGeneratorMachieGui extends GuiContainer{
 		drawCutIcon(icon, x + fullX * 16, y + fullY * 16, lastX, lastY, fullLvl == fullY ? lastLvl : 0);
 	}
 
+    //Хитрая функция отрисовки обрезанной иконки
 	//The magic is here
 	private void drawCutIcon(IIcon icon, int x, int y, int width, int height, int cut) {
 		Tessellator tess = Tessellator.instance;

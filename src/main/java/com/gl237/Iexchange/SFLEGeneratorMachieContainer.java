@@ -5,9 +5,12 @@
 
 package com.gl237.Iexchange;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -15,13 +18,16 @@ import static net.minecraft.tileentity.TileEntityFurnace.getItemBurnTime;
 
 public class SFLEGeneratorMachieContainer extends Container {
 
-	private SFLEGeneratorMachieTileEntity Mesh;//Енитити SFLE Генератора
+	private SFLEGeneratorMachieTileEntity machieTileEntity;//Енитити SFLE Генератора
 
-	public SFLEGeneratorMachieContainer(InventoryPlayer par1InventoryPlayer, SFLEGeneratorMachieTileEntity TileEntitydisasm)
+    private int lastProgress;
+    private int lastFluidLevel;
+
+	public SFLEGeneratorMachieContainer(InventoryPlayer inventoryPlayer, SFLEGeneratorMachieTileEntity tileEntity)
 	{
-		this.Mesh = TileEntitydisasm; //Присваеваем Ентити 
+		this.machieTileEntity = tileEntity; //Присваеваем Ентити
 		//Добовляем слоты контейнера
-        	this.addSlotToContainer(new Slot(TileEntitydisasm, 0, 52, 41));
+        	this.addSlotToContainer(new Slot(tileEntity, 0, 52, 41));
         	
         	//Добовляем слоты инвентаря игрока
         	int i;
@@ -30,22 +36,73 @@ public class SFLEGeneratorMachieContainer extends Container {
         	{
                 	for (int j = 0; j < 9; ++j)
                 	{
-                        	this.addSlotToContainer(new Slot(par1InventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                        	this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
                 	}
         	}
 
         	for (i = 0; i < 9; ++i)
         	{
-                	this.addSlotToContainer(new Slot(par1InventoryPlayer, i, 8 + i * 18, 142));
+                	this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
         	}
 	}
 
+    //Добовляем прогрессбары
+    public void addCraftingToCrafters(ICrafting iCrafting)
+    {
+        super.addCraftingToCrafters(iCrafting);
+        iCrafting.sendProgressBarUpdate(this, 0, this.machieTileEntity.Progress);
+        iCrafting.sendProgressBarUpdate(this, 1, this.machieTileEntity.FluidLevel);
+    }
+
+
+    //Проверяем изменение прогресс баров
+    public void detectAndSendChanges()
+    {
+        super.detectAndSendChanges();
+
+        for (int i = 0; i < this.crafters.size(); ++i)
+        {
+            ICrafting icrafting = (ICrafting)this.crafters.get(i);
+
+            if (this.lastProgress != this.machieTileEntity.Progress)
+            {
+                icrafting.sendProgressBarUpdate(this, 0, this.machieTileEntity.Progress);
+            }
+
+            if (this.lastFluidLevel != this.machieTileEntity.FluidLevel)
+            {
+                icrafting.sendProgressBarUpdate(this, 1, this.machieTileEntity.FluidLevel);
+            }
+
+        }
+
+        this.lastProgress = this.machieTileEntity.Progress;
+        this.lastFluidLevel = this.machieTileEntity.FluidLevel;
+
+    }
+
+    //обновляем состояние прогресс баров
+    @SideOnly(Side.CLIENT)
+    public void updateProgressBar(int parNum, int parValue)
+    {
+        if (parNum == 0)
+        {
+            this.machieTileEntity.Progress = parValue;
+        }
+
+        if (parNum == 1)
+        {
+            this.machieTileEntity.FluidLevel = parValue;
+        }
+    }
+
+
 	 @Override
-	 public ItemStack transferStackInSlot(EntityPlayer p, int i)//Оброботка шифтклик!
+	 public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex)//Оброботка шифтклик!
 	 {
 	 	int InvSize=1;//Количество слотов инвентаря
 	        ItemStack itemstack = null;//Создаем пустой стак
-	        Slot slot = (Slot) inventorySlots.get(i);//Получаем слот по индексу
+	        Slot slot = (Slot) inventorySlots.get(slotIndex);//Получаем слот по индексу
 	        if (slot != null && slot.getHasStack())//Если Слот существует и имеет предметы
 	        {
 
@@ -57,17 +114,14 @@ public class SFLEGeneratorMachieContainer extends Container {
                     return null;
                 }
 
-	            if (i < InvSize)//Если указатель поподает внутрь инвентаря
+	            if (slotIndex < InvSize)//Если указатель поподает внутрь инвентаря
 	            {
 	                if (!mergeItemStack(itemstack1, InvSize, inventorySlots.size(), true))//Перемещяем предметы в инвентарь
 	                {
 	                    return null;//Если не перемистилось Возвращяем пустоту
 	                }
 	            }
-	            /*else if (!Filter)//Сдесь будет фильтр того что можно вгружать в слот
-	            {
-	                return null;
-	            }*/
+
 	            else if (!mergeItemStack(itemstack1, 0, InvSize, false))//Прермещяем предметы в контейнер
 	            {
 	                return null;//Если не перемистилось Возвращяем пустоту
@@ -87,9 +141,9 @@ public class SFLEGeneratorMachieContainer extends Container {
 
 	//Возможно ли взаимодействие с игроком
 	@Override
-	public boolean canInteractWith(EntityPlayer entityplayer) {
-		
-		return this.Mesh.isUseableByPlayer(entityplayer);
+	public boolean canInteractWith(EntityPlayer entityPlayer)
+    {
+		return this.machieTileEntity.isUseableByPlayer(entityPlayer);
 	}
 
 }

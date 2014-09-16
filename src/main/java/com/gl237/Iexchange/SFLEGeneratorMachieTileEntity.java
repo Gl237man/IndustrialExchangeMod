@@ -26,7 +26,10 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 {
 
 	private ItemStack[] InvItemStacks;//Предметы в контейнере
-	private int FluidLevel;
+
+	public int FluidLevel;
+    public int Progress;
+
 	public SFLEGeneratorMachieTileEntity()
 	{
 		super();
