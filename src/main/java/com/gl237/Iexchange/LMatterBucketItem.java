@@ -16,34 +16,32 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class LMatterBucketItem extends ItemBucket {
 
-	private String iconName;
-	
-	// block это блок жидкости связанный с ведром
-	public LMatterBucketItem(Block block)
-    {
-		this(block, IexchangeMod.IECreativeTab);
-	}
+    private String iconName;
 
-	public LMatterBucketItem(Block block, CreativeTabs creativeTab) {
-		super(block);
-		setContainerItem(Items.bucket);
-		setCreativeTab(creativeTab);
-	}
+    // block это блок жидкости связанный с ведром
+    public LMatterBucketItem(Block block) {
+        this(block, IexchangeMod.IECreativeTab);
+    }
 
-	//Регистрируем имя предмета
-	@Override
-	public Item setUnlocalizedName(String icoName) {
-		iconName = icoName;
-		return super.setUnlocalizedName(icoName);
-	}
+    public LMatterBucketItem(Block block, CreativeTabs creativeTab) {
+        super(block);
+        setContainerItem(Items.bucket);
+        setCreativeTab(creativeTab);
+    }
 
-	//Регистрируем иконку предмета
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister iconRegister) {
-		this.itemIcon = iconRegister.registerIcon("iexchangemod:" + iconName);
-	}
-	
-	
-	
+    //Регистрируем имя предмета
+    @Override
+    public Item setUnlocalizedName(String icoName) {
+        iconName = icoName;
+        return super.setUnlocalizedName(icoName);
+    }
+
+    //Регистрируем иконку предмета
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister iconRegister) {
+        this.itemIcon = iconRegister.registerIcon("iexchangemod:" + iconName);
+    }
+
+
 }

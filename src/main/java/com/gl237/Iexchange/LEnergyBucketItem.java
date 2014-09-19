@@ -16,34 +16,33 @@ import net.minecraft.item.ItemBucket;
 
 public class LEnergyBucketItem extends ItemBucket {
 
-	private String iconName;
-	
-	// block это блок жидкости связанный с ведром
-	public LEnergyBucketItem(Block block) {
-	
-		this(block, IexchangeMod.IECreativeTab);
-	}
+    private String iconName;
 
-	public LEnergyBucketItem(Block block, CreativeTabs creativeTab) {
-		super(block);
-		setContainerItem(Items.bucket);//Указываем что ведроя является контейнером для жидкости
-		setCreativeTab(creativeTab);//Указываем вкладку в реативе
-	}
+    // block это блок жидкости связанный с ведром
+    public LEnergyBucketItem(Block block) {
 
-	//Регистрируем имя предмета
-	@Override
-	public Item setUnlocalizedName(String icoName) {
-		iconName = icoName;
-		return super.setUnlocalizedName(icoName);
-	}
-	
-	//Регистрируем иконку предмета
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IIconRegister iconRegister) {
-		this.itemIcon = iconRegister.registerIcon("iexchangemod:" + iconName);
-	}
-	
-	
-	
+        this(block, IexchangeMod.IECreativeTab);
+    }
+
+    public LEnergyBucketItem(Block block, CreativeTabs creativeTab) {
+        super(block);
+        setContainerItem(Items.bucket);//Указываем что ведроя является контейнером для жидкости
+        setCreativeTab(creativeTab);//Указываем вкладку в реативе
+    }
+
+    //Регистрируем имя предмета
+    @Override
+    public Item setUnlocalizedName(String icoName) {
+        iconName = icoName;
+        return super.setUnlocalizedName(icoName);
+    }
+
+    //Регистрируем иконку предмета
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister iconRegister) {
+        this.itemIcon = iconRegister.registerIcon("iexchangemod:" + iconName);
+    }
+
+
 }

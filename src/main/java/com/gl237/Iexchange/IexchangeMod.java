@@ -23,13 +23,12 @@ import net.minecraftforge.fluids.FluidRegistry;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 @Mod(modid = IexchangeMod.MODID, version = IexchangeMod.VERSION)
-public class IexchangeMod
-{
+public class IexchangeMod {
 
     //Обявляем инстанс
     @Instance("IexchangeMod")
     public static IexchangeMod instance;
-	
+
     public static final String MODID = "industrialexchange";
     public static final String VERSION = "0.1";
     //Жидкости
@@ -43,58 +42,58 @@ public class IexchangeMod
     public static Item lMatterBucketItem;
     //Машины
     public static Block sFLEGeneratorMachieBlock;//Твердотопливный генератор ЖЭ
-    
-    public static CreativeTabs IECreativeTab = new IECreativeTab(CreativeTabs.getNextID(),"IECreativeTab");
+
+    public static CreativeTabs IECreativeTab = new IECreativeTab(CreativeTabs.getNextID(), "IECreativeTab");
+
     @EventHandler
-    public void init(FMLInitializationEvent event)
-    {
+    public void init(FMLInitializationEvent event) {
         //event.
-    	instance = this;//Без этого почемуто не работает
-    	InitMachines();
-    	InitFuilds();
+        instance = this;//Без этого почемуто не работает
+        InitMachines();
+        InitFuilds();
         InitBuckets();
 
-    	EVENT_BUS.register(this);
+        EVENT_BUS.register(this);
     }
+
     //Инициализация машин
-    private void InitMachines()
-    {
-	    //Регистрируем блок SFLE Генератора
-    	sFLEGeneratorMachieBlock = new SFLEGeneratorMachieBlock(Material.iron).setBlockName("sFLEGeneratorMachieBlock");
-    	GameRegistry.registerBlock(sFLEGeneratorMachieBlock, MODID + "_" + sFLEGeneratorMachieBlock.getUnlocalizedName());
-   	    GameRegistry.registerTileEntity(SFLEGeneratorMachieTileEntity.class, "SFLEGeneratorMachieContainer");//Добовляем ентитти
-  	    //Регистрируем гуи хендлеры
-    	NetworkRegistry.INSTANCE.registerGuiHandler(IexchangeMod.instance, new MyGuiHandler());
+    private void InitMachines() {
+        //Регистрируем блок SFLE Генератора
+        sFLEGeneratorMachieBlock = new SFLEGeneratorMachieBlock(Material.iron).setBlockName("sFLEGeneratorMachieBlock");
+        GameRegistry.registerBlock(sFLEGeneratorMachieBlock, MODID + "_" + sFLEGeneratorMachieBlock.getUnlocalizedName());
+        GameRegistry.registerTileEntity(SFLEGeneratorMachieTileEntity.class, "SFLEGeneratorMachieContainer");//Добовляем ентитти
+        //Регистрируем гуи хендлеры
+        NetworkRegistry.INSTANCE.registerGuiHandler(IexchangeMod.instance, new MyGuiHandler());
 
 
     }
+
     //Инициализация жидкосией
-    private void InitFuilds()
-    {
-    	LEnergyFluid = new Fluid("LiquidEnergy");
+    private void InitFuilds() {
+        LEnergyFluid = new Fluid("LiquidEnergy");
         LMatterFluid = new Fluid("LiquidMatter");
-    	
-    	LEnergyFluid.setLuminosity(15); //Светимость
-    	LEnergyFluid.setViscosity(500); //Текучесть
-    	
-    	LMatterFluid.setLuminosity(1); //Светимость
-    	LMatterFluid.setViscosity(7000); //Текучесть
-    	
-    	//Добовляем жидкость в реестр жидкостей
-    	FluidRegistry.registerFluid(LEnergyFluid);
-    	FluidRegistry.registerFluid(LMatterFluid);
-    	
-    	//Добовляем блоки жидкости
-    	lEnergyFluidBlock = new LEnergyFluidBlock(LEnergyFluid, Material.water).setBlockName("LEnergyFluidB");
-    	lMatterFluidBlock = new LMatterFluidBlock(LMatterFluid, Material.water).setBlockName("LMatterFluidB");
-    	
-    	//Регистрируем блоки жидкости в реестре жидкостей
-    	GameRegistry.registerBlock(lEnergyFluidBlock, MODID + "_" + lEnergyFluidBlock.getUnlocalizedName());
-    	GameRegistry.registerBlock(lMatterFluidBlock, MODID + "_" + lMatterFluidBlock.getUnlocalizedName());
-    	
-    	//Устанавливаем имена жидкостей
-    	LEnergyFluid.setUnlocalizedName(lEnergyFluidBlock.getUnlocalizedName());
-    	LMatterFluid.setUnlocalizedName(lMatterFluidBlock.getUnlocalizedName());
+
+        LEnergyFluid.setLuminosity(15); //Светимость
+        LEnergyFluid.setViscosity(500); //Текучесть
+
+        LMatterFluid.setLuminosity(1); //Светимость
+        LMatterFluid.setViscosity(7000); //Текучесть
+
+        //Добовляем жидкость в реестр жидкостей
+        FluidRegistry.registerFluid(LEnergyFluid);
+        FluidRegistry.registerFluid(LMatterFluid);
+
+        //Добовляем блоки жидкости
+        lEnergyFluidBlock = new LEnergyFluidBlock(LEnergyFluid, Material.water).setBlockName("LEnergyFluidB");
+        lMatterFluidBlock = new LMatterFluidBlock(LMatterFluid, Material.water).setBlockName("LMatterFluidB");
+
+        //Регистрируем блоки жидкости в реестре жидкостей
+        GameRegistry.registerBlock(lEnergyFluidBlock, MODID + "_" + lEnergyFluidBlock.getUnlocalizedName());
+        GameRegistry.registerBlock(lMatterFluidBlock, MODID + "_" + lMatterFluidBlock.getUnlocalizedName());
+
+        //Устанавливаем имена жидкостей
+        LEnergyFluid.setUnlocalizedName(lEnergyFluidBlock.getUnlocalizedName());
+        LMatterFluid.setUnlocalizedName(lMatterFluidBlock.getUnlocalizedName());
     }
 
     private void InitBuckets() {
@@ -116,14 +115,13 @@ public class IexchangeMod
     //Перехватываем событие получение текстуры для жидкостей
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public void textureHook(TextureStitchEvent.Post event)
-    {
+    public void textureHook(TextureStitchEvent.Post event) {
         if (event.map.getTextureType() == 0)//Если тектура не присвоена
         {
             LEnergyFluid.setIcons(lEnergyFluidBlock.getBlockTextureFromSide(1), lEnergyFluidBlock.getBlockTextureFromSide(2));
             LMatterFluid.setIcons(lMatterFluidBlock.getBlockTextureFromSide(1), lMatterFluidBlock.getBlockTextureFromSide(2));
         }
     }
-    
-    
+
+
 }

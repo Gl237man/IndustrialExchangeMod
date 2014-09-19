@@ -21,34 +21,34 @@ public class LMatterFluidBlock extends BlockFluidClassic {
     protected IIcon stillIcon; //Иконка стоячей жидкости
     @SideOnly(Side.CLIENT)
     protected IIcon flowingIcon; //Иконка текущей жидкости
-    
+
     public LMatterFluidBlock(Fluid fluid, Material material) {
-            super(fluid, material);
-            setCreativeTab(IexchangeMod.IECreativeTab);//Добовление в креатив таб
+        super(fluid, material);
+        setCreativeTab(IexchangeMod.IECreativeTab);//Добовление в креатив таб
     }
-    
+
     @Override
     public IIcon getIcon(int side, int meta) {
-            return (side == 0 || side == 1)? stillIcon : flowingIcon;//Возращяем нужную иконку
+        return (side == 0 || side == 1) ? stillIcon : flowingIcon;//Возращяем нужную иконку
     }
-    
+
     //Регистрируем иконки
     @SideOnly(Side.CLIENT)
     @Override
     public void registerBlockIcons(IIconRegister register) {
-            stillIcon = register.registerIcon("iexchangemod:LMatter_still");
-            flowingIcon = register.registerIcon("iexchangemod:LMatter_flow");
+        stillIcon = register.registerIcon("iexchangemod:LMatter_still");
+        flowingIcon = register.registerIcon("iexchangemod:LMatter_flow");
     }
-    
+
     //Определяем поведение замены блока
     @Override
     public boolean canDisplace(IBlockAccess world, int x, int y, int z) {
         return !world.getBlock(x, y, z).getMaterial().isLiquid() && super.canDisplace(world, x, y, z);
     }
-    
+
     @Override
     public boolean displaceIfPossible(World world, int x, int y, int z) {
         return !world.getBlock(x, y, z).getMaterial().isLiquid() && super.displaceIfPossible(world, x, y, z);
     }
-    
+
 }

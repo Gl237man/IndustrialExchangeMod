@@ -10,18 +10,18 @@ import net.minecraft.item.ItemStack;
 
 public class IECreativeTab extends CreativeTabs {
 
-	public IECreativeTab(int TabID, String TabName) {
-		super(TabID, TabName);
-	}
+    public IECreativeTab(int TabID, String TabName) {
+        super(TabID, TabName);
+    }
 
-	//Получение иконки креатив таба
-	@Override
-	public Item getTabIconItem() {
-		return new ItemStack(IexchangeMod.lEnergyBucketItem,1).getItem();
-	}
-	//Получение названия вкладки
-	public String getTranslatedTabLabel()
-	{
-		return "IExchange";
-	}
+    //Получение иконки креатив таба
+    @Override
+    public Item getTabIconItem() {
+        return new ItemStack(IexchangeMod.lEnergyBucketItem, 1).getItem();
+    }
+
+    //Получение названия вкладки
+    public String getTranslatedTabLabel() {
+        return "IExchange";
+    }
 }
