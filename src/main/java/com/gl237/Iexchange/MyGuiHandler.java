@@ -16,10 +16,22 @@ public class MyGuiHandler implements IGuiHandler {
     public Object getServerGuiElement(int ID, EntityPlayer player, World world,
                                       int x, int y, int z) {
         TileEntity tileEntity = world.getTileEntity(x, y, z);//Получаем ентити обекта открываемого интерфейса
-
-        if (tileEntity instanceof SFLEGeneratorMachieTileEntity)//Если ентити является SFLE Генераторовм то Возврощяем контейнер
+        switch (ID)
         {
-            return new SFLEGeneratorMachieContainer(player.inventory, (SFLEGeneratorMachieTileEntity) tileEntity);
+            case 0:
+                if (tileEntity instanceof SFLEGeneratorMachieTileEntity)//Если ентити является SFLE Генераторовм то Возврощяем контейнер
+                {
+                    return new SFLEGeneratorMachieContainer(player.inventory, (SFLEGeneratorMachieTileEntity) tileEntity);
+                }
+                break;
+            case 1:
+                if (tileEntity instanceof MatterGeneratorMachineTileEntity)//Если ентити является SFLE Генераторовм то Возврощяем контейнер
+                {
+                    return new MatterGeneratorMachineContainer(player.inventory, (MatterGeneratorMachineTileEntity) tileEntity);
+                }
+                break;
+            default:
+                return null;
         }
         return null;
 
@@ -29,10 +41,21 @@ public class MyGuiHandler implements IGuiHandler {
     public Object getClientGuiElement(int ID, EntityPlayer player, World world,
                                       int x, int y, int z) {
         TileEntity tileEntity = world.getTileEntity(x, y, z);//Получаем ентити обекта открываемого интерфейса
-
-        if (tileEntity instanceof SFLEGeneratorMachieTileEntity)//Если ентити является SFLE Генераторовм то Возврощяем Гуи
-        {
-            return new SFLEGeneratorMachieGui(player.inventory, (SFLEGeneratorMachieTileEntity) tileEntity);
+        switch (ID) {
+            case 0:
+                if (tileEntity instanceof SFLEGeneratorMachieTileEntity)//Если ентити является SFLE Генераторовм то Возврощяем Гуи
+                {
+                    return new SFLEGeneratorMachieGui(player.inventory, (SFLEGeneratorMachieTileEntity) tileEntity);
+                }
+                break;
+            case 1:
+                if (tileEntity instanceof MatterGeneratorMachineTileEntity)//Если ентити является SFLE Генераторовм то Возврощяем Гуи
+                {
+                    return new MatterGeneratorMachineGui(player.inventory, (MatterGeneratorMachineTileEntity) tileEntity);
+                }
+                break;
+            default:
+                return null;
         }
         return null;
     }

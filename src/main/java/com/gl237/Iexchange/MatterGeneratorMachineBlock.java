@@ -1,8 +1,3 @@
-// SFLEGeneratorMachieBlock.java
-// Block SFLEGenerator
-// Блок SFLE Генератора
-// gl237man
-
 package com.gl237.Iexchange;
 
 import cpw.mods.fml.relauncher.Side;
@@ -14,7 +9,6 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,11 +17,14 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 
 import java.util.Random;
 
-public class SFLEGeneratorMachieBlock extends BlockContainer {
+/**
+ * Created by gl237 on 21.09.2014.
+ */
+public class MatterGeneratorMachineBlock extends BlockContainer{
+
     //Иконки
     IIcon textureTop;
     IIcon textureButom;
@@ -36,14 +33,7 @@ public class SFLEGeneratorMachieBlock extends BlockContainer {
     IIcon textureLeft;
     IIcon textureRight;
 
-    protected SFLEGeneratorMachieBlock(Material material) {
-        super(material);
-        setCreativeTab(IexchangeMod.IECreativeTab);//Добовление в креатив таб
-        this.setHardness(4F);//Установка прочности
-        this.setResistance(1F);//Установка Взрывозащищоности
-    }
-
-    //Когда блок активирован пользователем	
+    //Когда блок активирован пользователем
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float what, float these, float are) {
 
@@ -53,54 +43,14 @@ public class SFLEGeneratorMachieBlock extends BlockContainer {
             return false;
         }
 
-        player.openGui(IexchangeMod.instance, 0, world, x, y, z);//Открыть гуи с индексом ноль
+        player.openGui(IexchangeMod.instance, 1, world, x, y, z);//Открыть гуи с индексом Один
         return true;
-    }
-
-    //Вываливание содержимого блока при разрушении
-    @Override
-    public void breakBlock(World world, int x, int y, int z, Block block, int hz) {
-        Random R = new Random();
-        SFLEGeneratorMachieTileEntity tileEntity = (SFLEGeneratorMachieTileEntity) world.getTileEntity(x, y, z);
-
-        if (tileEntity != null) {
-            for (int i1 = 0; i1 < tileEntity.getSizeInventory(); ++i1) {
-                ItemStack itemstack = tileEntity.getStackInSlot(i1);
-
-                if (itemstack != null) {
-                    float f = R.nextFloat() * 0.8F + 0.1F;
-                    float f1 = R.nextFloat() * 0.8F + 0.1F;
-                    EntityItem entityitem;
-
-                    for (float f2 = R.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; world.spawnEntityInWorld(entityitem)) {
-                        int j1 = R.nextInt(21) + 10;
-
-                        if (j1 > itemstack.stackSize) {
-                            j1 = itemstack.stackSize;
-                        }
-
-                        itemstack.stackSize -= j1;
-                        entityitem = new EntityItem(world, (double) ((float) x + f), (double) ((float) y + f1), (double) ((float) z + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
-                        float f3 = 0.05F;
-                        entityitem.motionX = (double) ((float) R.nextGaussian() * f3);
-                        entityitem.motionY = (double) ((float) R.nextGaussian() * f3 + 0.2F);
-                        entityitem.motionZ = (double) ((float) R.nextGaussian() * f3);
-
-                        if (itemstack.hasTagCompound()) {
-                            entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
-                        }
-                    }
-                }
-            }
-        }
-
-        super.breakBlock(world, x, y, z, block, hz);
     }
 
     //Тип предмета при добычи
     @Override
     public Item getItemDropped(int par1, Random random, int par3) {
-        return Item.getItemFromBlock(IexchangeMod.sFLEGeneratorMachieBlock);
+        return Item.getItemFromBlock(IexchangeMod.matterGeneratorMachieBlock);
     }
 
     //Количество предметов при добычи
@@ -112,7 +62,7 @@ public class SFLEGeneratorMachieBlock extends BlockContainer {
     //Создание ентити при установке в мире
     @Override
     public TileEntity createNewTileEntity(World world, int arg1) {
-        return new SFLEGeneratorMachieTileEntity();
+        return new MatterGeneratorMachineTileEntity();
     }
 
     //Регистрируем иконки
@@ -122,7 +72,7 @@ public class SFLEGeneratorMachieBlock extends BlockContainer {
         textureTop = register.registerIcon("iexchangemod:testBlockTop");
         textureButom = register.registerIcon("iexchangemod:testBlockButom");
         textureBack = register.registerIcon("iexchangemod:testBlockBack");
-        textureFront = register.registerIcon("iexchangemod:testBlockFront");
+        textureFront = register.registerIcon("iexchangemod:EGenBlockFront");
         textureLeft = register.registerIcon("iexchangemod:testBlockLeft");
         textureRight = register.registerIcon("iexchangemod:testBlockRight");
 
@@ -240,6 +190,52 @@ public class SFLEGeneratorMachieBlock extends BlockContainer {
                 }
         }
 
+    }
+
+    //Вываливание содержимого блока при разрушении
+    @Override
+    public void breakBlock(World world, int x, int y, int z, Block block, int hz) {
+        Random R = new Random();
+        MatterGeneratorMachineTileEntity tileEntity = (MatterGeneratorMachineTileEntity) world.getTileEntity(x, y, z);
+        if (tileEntity != null) {
+            for (int i1 = 0; i1 < tileEntity.getSizeInventory(); ++i1) {
+                ItemStack itemstack = tileEntity.getStackInSlot(i1);
+
+                if (itemstack != null) {
+                    float f = R.nextFloat() * 0.8F + 0.1F;
+                    float f1 = R.nextFloat() * 0.8F + 0.1F;
+                    EntityItem entityitem;
+
+                    for (float f2 = R.nextFloat() * 0.8F + 0.1F; itemstack.stackSize > 0; world.spawnEntityInWorld(entityitem)) {
+                        int j1 = R.nextInt(21) + 10;
+
+                        if (j1 > itemstack.stackSize) {
+                            j1 = itemstack.stackSize;
+                        }
+
+                        itemstack.stackSize -= j1;
+                        entityitem = new EntityItem(world, (double) ((float) x + f), (double) ((float) y + f1), (double) ((float) z + f2), new ItemStack(itemstack.getItem(), j1, itemstack.getItemDamage()));
+                        float f3 = 0.05F;
+                        entityitem.motionX = (double) ((float) R.nextGaussian() * f3);
+                        entityitem.motionY = (double) ((float) R.nextGaussian() * f3 + 0.2F);
+                        entityitem.motionZ = (double) ((float) R.nextGaussian() * f3);
+
+                        if (itemstack.hasTagCompound()) {
+                            entityitem.getEntityItem().setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
+                        }
+                    }
+                }
+            }
+        }
+        super.breakBlock(world, x, y, z, block, hz);
+    }
+
+
+    protected MatterGeneratorMachineBlock(Material material) {
+        super(material);
+        setCreativeTab(IexchangeMod.IECreativeTab);//Добовление в креатив таб
+        this.setHardness(4F);//Установка прочности
+        this.setResistance(1F);//Установка Взрывозащищоности
     }
 
 

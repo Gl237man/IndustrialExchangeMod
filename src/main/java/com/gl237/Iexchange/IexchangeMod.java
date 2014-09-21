@@ -42,6 +42,7 @@ public class IexchangeMod {
     public static Item lMatterBucketItem;
     //Машины
     public static Block sFLEGeneratorMachieBlock;//Твердотопливный генератор ЖЭ
+    public static Block matterGeneratorMachieBlock;//Генератор Материи
 
     public static CreativeTabs IECreativeTab = new IECreativeTab(CreativeTabs.getNextID(), "IECreativeTab");
 
@@ -62,6 +63,10 @@ public class IexchangeMod {
         sFLEGeneratorMachieBlock = new SFLEGeneratorMachieBlock(Material.iron).setBlockName("sFLEGeneratorMachieBlock");
         GameRegistry.registerBlock(sFLEGeneratorMachieBlock, MODID + "_" + sFLEGeneratorMachieBlock.getUnlocalizedName());
         GameRegistry.registerTileEntity(SFLEGeneratorMachieTileEntity.class, "SFLEGeneratorMachieContainer");//Добовляем ентитти
+        //Регистрируем блок Генератора Материи
+        matterGeneratorMachieBlock = new MatterGeneratorMachineBlock(Material.iron).setBlockName("matterGeneratorMachieBlock");
+        GameRegistry.registerBlock(matterGeneratorMachieBlock, MODID + "_" + matterGeneratorMachieBlock.getUnlocalizedName());
+        GameRegistry.registerTileEntity(MatterGeneratorMachineTileEntity.class, "matterGeneratorMachieContainer");//Добовляем ентитти
         //Регистрируем гуи хендлеры
         NetworkRegistry.INSTANCE.registerGuiHandler(IexchangeMod.instance, new MyGuiHandler());
 
