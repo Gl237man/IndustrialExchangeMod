@@ -103,7 +103,7 @@ public class MatterGeneratorMachineContainer extends Container {
             ItemStack itemstack1 = slot.getStack();//Получаем предметы из слота в стак
             itemstack = itemstack1.copy();//Копируем стак
 
-            if (getItemBurnTime(itemstack1) < 1)//Если предмет не топливо
+            if (MatterValueCalculator.GetMatterValue(itemstack1) < 1)//Если предмет не топливо
             {
                 return null;
             }

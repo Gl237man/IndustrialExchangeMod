@@ -105,7 +105,8 @@ public class MatterGeneratorMachineTileEntity extends TileEntity implements IInv
     public boolean isItemValidForSlot(int slot, ItemStack stack) {
         //Только то что можем сжечь
         //TODO Надо сделать таблицу ценностей предметов
-        return getItemBurnTime(stack) > 0;
+        return MatterValueCalculator.GetMatterValue(stack)>0;
+        //return getItemBurnTime(stack) > 0;
     }
 
     //Можно ли использовать игроком?
@@ -156,8 +157,8 @@ public class MatterGeneratorMachineTileEntity extends TileEntity implements IInv
             markDirty();//Помечаем что обьект изменился
         }
         if (ProgressMax == 0 && InvItemStacks[0] != null) {//Если процесса нет и есть стак
-            if (InvItemStacks[0].stackSize > 0 && getItemBurnTime(InvItemStacks[0]) > 0) {//Если есть стак и он топливо
-                ProgressMax = getItemBurnTime(InvItemStacks[0]);//Расчитываем сколько топлива в нем есть
+            if (InvItemStacks[0].stackSize > 0 && MatterValueCalculator.GetMatterValue(InvItemStacks[0]) > 0) {//Если есть стак и он топливо
+                ProgressMax = MatterValueCalculator.GetMatterValue(InvItemStacks[0]);//Расчитываем сколько топлива в нем есть
                 InvItemStacks[0].stackSize--;//Удаляем один предмет
                 if (InvItemStacks[0].stackSize < 1) {//Если предметов больше нет то удаляем стак
                     InvItemStacks[0] = null;

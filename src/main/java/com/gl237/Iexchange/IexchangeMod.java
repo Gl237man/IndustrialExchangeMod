@@ -29,6 +29,8 @@ public class IexchangeMod {
     @Instance("IexchangeMod")
     public static IexchangeMod instance;
 
+    public MatterValueCalculator valueCalculator;
+
     public static final String MODID = "industrialexchange";
     public static final String VERSION = "0.1";
     //Жидкости
@@ -50,6 +52,9 @@ public class IexchangeMod {
     public void init(FMLInitializationEvent event) {
         //event.
         instance = this;//Без этого почемуто не работает
+
+        valueCalculator = new MatterValueCalculator();//Инициализируем калькулятор
+
         InitMachines();
         InitFuilds();
         InitBuckets();
