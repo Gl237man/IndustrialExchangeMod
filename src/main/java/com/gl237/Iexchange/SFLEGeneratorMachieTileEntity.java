@@ -240,7 +240,7 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
     //Залив жидкости
     @Override
     public int fill(FluidStack fluidStack, boolean doFill) {
-        if (fluidStack.fluidID == getFluid().fluidID && doFill) {
+        if (fluidStack.isFluidEqual(getFluid()) && doFill) {
             if (fluidStack.amount > (getCapacity() - FluidLevel)) {
                 FluidLevel += fluidStack.amount;
                 markDirty();
@@ -281,13 +281,13 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
     //Можно ли сливать
     @Override
     public boolean canDrain(ForgeDirection from, Fluid fluid) {
-        return fluid.getID() == getFluid().fluidID;
+        return fluid.getID() == getFluid().getFluidID();
     }
 
     //Можно ли наполнять
     @Override
     public boolean canFill(ForgeDirection from, Fluid fluid) {
-        return fluid.getID() == getFluid().fluidID;
+        return fluid.getID() == getFluid().getFluidID();
     }
 
     //Слив конкретного количества конкретной жидкости
@@ -335,7 +335,7 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
     @Override
     public int fill(ForgeDirection from, FluidStack fluidStack, boolean doFill) {
 
-        if (fluidStack.fluidID == getFluid().fluidID && doFill) {
+        if (fluidStack.getFluidID() == getFluid().getFluidID() && doFill) {
             if (fluidStack.amount + FluidLevel <= getCapacity()) {
                 FluidLevel += fluidStack.amount;
                 markDirty();
