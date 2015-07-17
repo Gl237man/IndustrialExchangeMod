@@ -18,9 +18,9 @@ import static net.minecraft.tileentity.TileEntityFurnace.getItemBurnTime;
 public class MatterGeneratorMachineTileEntity extends TileEntity implements IInventory, IFluidTank, IFluidHandler {
     private ItemStack[] InvItemStacks;//Предметы в контейнере
 
-    public int FluidLevel;
-    public int Progress;
-    public int ProgressMax;
+    public int FluidLevel;//Уровень жидкости в машине
+    public int Progress;//Текущее состояние счетчика работы
+    public int ProgressMax;//Максимальное состояния счетчика работы
 
     public MatterGeneratorMachineTileEntity() {
         super();
@@ -157,8 +157,8 @@ public class MatterGeneratorMachineTileEntity extends TileEntity implements IInv
             markDirty();//Помечаем что обьект изменился
         }
         if (ProgressMax == 0 && InvItemStacks[0] != null) {//Если процесса нет и есть стак
-            if (InvItemStacks[0].stackSize > 0 && MatterValueCalculator.GetMatterValue(InvItemStacks[0]) > 0) {//Если есть стак и он топливо
-                ProgressMax = MatterValueCalculator.GetMatterValue(InvItemStacks[0]);//Расчитываем сколько топлива в нем есть
+            if (InvItemStacks[0].stackSize > 0 && MatterValueCalculator.GetMatterValue(InvItemStacks[0]) > 0) {//Если есть стак и он прегоден для преобразования
+                ProgressMax = MatterValueCalculator.GetMatterValue(InvItemStacks[0]);//Расчитываем сколько материи есть в предмете
                 InvItemStacks[0].stackSize--;//Удаляем один предмет
                 if (InvItemStacks[0].stackSize < 1) {//Если предметов больше нет то удаляем стак
                     InvItemStacks[0] = null;
@@ -172,9 +172,9 @@ public class MatterGeneratorMachineTileEntity extends TileEntity implements IInv
     //Чтение состояния ентити
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound) {
-        super.readFromNBT(nbtTagCompound);
-        NBTTagList nbttaglist = nbtTagCompound.getTagList("Items", Constants.NBT.TAG_COMPOUND);
-        InvItemStacks = new ItemStack[getSizeInventory()];
+        super.readFromNBT(nbtTagCompound);//читаем из NBT Данные обьекта
+        NBTTagList nbttaglist = nbtTagCompound.getTagList("Items", Constants.NBT.TAG_COMPOUND); //Извлекаем Инвентарь
+        InvItemStacks = new ItemStack[getSizeInventory()]; //Создаем пустой инвентарь
         for (int i = 0; i < nbttaglist.tagCount(); i++) {
             NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
             int j = nbttagcompound1.getByte("Slot") & 0xff;
@@ -182,9 +182,9 @@ public class MatterGeneratorMachineTileEntity extends TileEntity implements IInv
                 InvItemStacks[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
             }
         }
-        FluidLevel = nbtTagCompound.getInteger("FluidLevel");
-        Progress = nbtTagCompound.getInteger("FluidLevel");
-        ProgressMax = nbtTagCompound.getInteger("ProgressMax");
+        FluidLevel = nbtTagCompound.getInteger("FluidLevel");//Извлекаем уровень жидкости
+        Progress = nbtTagCompound.getInteger("FluidLevel");//Извлекаем текущий прогресс
+        ProgressMax = nbtTagCompound.getInteger("ProgressMax");//Извлекаем Максимум прогресса
     }
 
     //Запись состояния
