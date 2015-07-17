@@ -294,16 +294,20 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
     @Override
     public FluidStack drain(ForgeDirection from, FluidStack fluidStack, boolean doDrain) {
 
-        if (FluidLevel > 0 && doDrain) {
+        if (FluidLevel > 0) {
             if (FluidLevel >= fluidStack.amount) {
                 FluidStack fluidStack1 = FluidRegistry.getFluidStack("liquidenergy", fluidStack.amount);
-                FluidLevel -= fluidStack.amount;
-                markDirty();
+                if (doDrain) {
+                    FluidLevel -= fluidStack.amount;
+                    markDirty();
+                }
                 return fluidStack1;
             } else {
                 FluidStack fluidStack1 = FluidRegistry.getFluidStack("liquidenergy", FluidLevel);
-                FluidLevel -= FluidLevel;
-                markDirty();
+                if (doDrain) {
+                    FluidLevel -= FluidLevel;
+                    markDirty();
+                }
                 return fluidStack1;
             }
         }
@@ -314,16 +318,14 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
     @Override
     public FluidStack drain(ForgeDirection from, int amount, boolean doDrain) {
 
+        //amount = 1000;
+        FluidStack fluidStack;
         if (FluidLevel > 0) {
             if (FluidLevel >= amount) {
-                FluidStack fluidStack = FluidRegistry.getFluidStack("liquidenergy", amount);
-                FluidLevel -= amount;
-                markDirty();
+                fluidStack = FluidRegistry.getFluidStack("liquidenergy", amount);
                 return fluidStack;
             } else {
-                FluidStack fluidStack = FluidRegistry.getFluidStack("liquidenergy", FluidLevel);
-                FluidLevel -= FluidLevel;
-                markDirty();
+                fluidStack = FluidRegistry.getFluidStack("liquidenergy", FluidLevel);
                 return fluidStack;
             }
         }

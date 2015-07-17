@@ -25,7 +25,7 @@ public class MatterValueCalculator {
         if (itemStack.getItem() == Items.apple) return 16;
         if (itemStack.getItem() == Items.arrow) return 0;
         if (itemStack.getItem() == Items.coal) return 0;
-        if (itemStack.getItem() == Items.diamond) return 0;
+        if (itemStack.getItem() == Items.diamond) return 8096;
         if (itemStack.getItem() == Items.iron_ingot) return 0;
         if (itemStack.getItem() == Items.gold_ingot) return 0;
         if (itemStack.getItem() == Items.iron_sword) return 0;

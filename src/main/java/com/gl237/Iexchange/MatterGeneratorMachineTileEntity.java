@@ -288,16 +288,20 @@ public class MatterGeneratorMachineTileEntity extends TileEntity implements IInv
     @Override
     public FluidStack drain(ForgeDirection from, FluidStack fluidStack, boolean doDrain) {
 
-        if (FluidLevel > 0 && doDrain) {
+        if (FluidLevel > 0) {
             if (FluidLevel >= fluidStack.amount) {
                 FluidStack fluidStack1 = FluidRegistry.getFluidStack("liquidmatter", fluidStack.amount);
-                FluidLevel -= fluidStack.amount;
-                markDirty();
+                if (doDrain) {
+                    FluidLevel -= fluidStack.amount;
+                    markDirty();
+                }
                 return fluidStack1;
             } else {
                 FluidStack fluidStack1 = FluidRegistry.getFluidStack("liquidmatter", FluidLevel);
-                FluidLevel -= FluidLevel;
-                markDirty();
+                if (doDrain) {
+                    FluidLevel -= fluidStack.amount;
+                    markDirty();
+                }
                 return fluidStack1;
             }
         }
@@ -308,16 +312,15 @@ public class MatterGeneratorMachineTileEntity extends TileEntity implements IInv
     @Override
     public FluidStack drain(ForgeDirection from, int amount, boolean doDrain) {
 
+        //amount = 1000;
+
+        FluidStack fluidStack;
         if (FluidLevel > 0) {
             if (FluidLevel >= amount) {
-                FluidStack fluidStack = FluidRegistry.getFluidStack("liquidmatter", amount);
-                FluidLevel -= amount;
-                markDirty();
+                fluidStack = FluidRegistry.getFluidStack("liquidmatter", amount);
                 return fluidStack;
             } else {
-                FluidStack fluidStack = FluidRegistry.getFluidStack("liquidmatter", FluidLevel);
-                FluidLevel -= FluidLevel;
-                markDirty();
+                fluidStack = FluidRegistry.getFluidStack("liquidmatter", FluidLevel);
                 return fluidStack;
             }
         }
