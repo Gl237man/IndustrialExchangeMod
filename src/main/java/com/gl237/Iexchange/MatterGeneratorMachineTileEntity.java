@@ -157,7 +157,6 @@ public class MatterGeneratorMachineTileEntity extends TileEntity implements IInv
 
     //Событие обновления
     public void updateEntity() {
-    //TODO Передалать под генератор маттерии
         if (ProgressMax > 0) {//Если процесс идет
             int delta = ProgressMax - Progress;//Считаем сколько можем преобразовать
             if ((getCapacity() - FluidLevel) > 50) {//Если есть место для преобразования
@@ -204,7 +203,7 @@ public class MatterGeneratorMachineTileEntity extends TileEntity implements IInv
             }
         }
         FluidLevel = nbtTagCompound.getInteger("FluidLevel");//Извлекаем уровень жидкости
-        Progress = nbtTagCompound.getInteger("FluidLevel");//Извлекаем текущий прогресс
+        Progress = nbtTagCompound.getInteger("Progress");//Извлекаем текущий прогресс
         ProgressMax = nbtTagCompound.getInteger("ProgressMax");//Извлекаем Максимум прогресса
     }
 
