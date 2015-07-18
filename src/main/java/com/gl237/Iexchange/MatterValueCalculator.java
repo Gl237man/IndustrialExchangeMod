@@ -16,8 +16,75 @@ public class MatterValueCalculator {
 
     }
 
-    public static int GetMatterValue(ItemStack itemStack)
-    {
+    public static int GetMatterValue(ItemStack itemStack) {
+        /*
+        Note1 1
+        Button, Stone Pressure Plate 2
+        Gravel, Nether Brick, Stick, Sandstone, Sandstone Slab, Flint 4
+        Lever 5
+        Cactus, Furnace, Medium Covalence Dust, Vines, Wooden Planks, Wooden Slab, Dye 8
+        Torch 9
+        Cobweb, Fence, Fishing Rod, String, Wooden Stairs 12
+        Ladder, Arrow 14
+        Flower, Rose, Lily Pad, Wooden Pressure Plate, Seeds, Melon Seeds, Pumpkin Seeds 16
+        Wheat, Trap Door, Sticky Resin, Nether Wart, Rotten Flesh, Slimeball 24
+        Note2 32
+        Wool(all colors), Bone Meal, Feather 48
+        Soul Sand 49
+        Chest, Obsidian, Redstone, Porkchop, Beef, Fish, Chicken, Leather, Clay, Verdant Dust 64
+        Redstone Torch 68
+        Bread 72
+        Painting 80
+        Iron Bars, Rail, Book, Bone 96
+        Dispenser 119
+        Coal, Apple, Note Block, Spider Eye 128
+        Jack 'o' Lantern, Melon, Pumpkin, Bed, Bone 144
+        Moss Stone 145
+        Gunpowder, Fermented Spider Eye, Saddle 192
+        Glistering Melon 243
+        Brick Block, Brick Slab, Clay Block, Detector Rail, Iron Ingot 256
+        Bookshelf 336
+        Brick Stairs, Piston 348
+        Sticky Piston 372
+        Cake, Glowstone Dust 384
+        Blaze Powder, Bucket 768
+        Water Bucket 769
+        Magma Cream 792
+        Lava bucket 832
+        Milk bucket 833
+        Lapis Lazuli 864
+        TNT 964
+        Ender Pearl 1, 024
+        Compass 1, 088
+        Minecart, Iron Helmet 1, 280
+        Minecart with Furnace 1, 288
+        Minecart with Chest 1, 344
+        Glowstone, Iron Door, Blaze Rod 1, 536
+        Brewing Stand 1, 539
+        Eye of Ender 1, 792
+        Golden Apple 1, 944
+        Gold Ingot, Powered Rail, Azure Dust 2, 048
+        Iron Block 2, 304
+        Ghast Tear 4, 096
+        Lapis Lazuli Block 7, 776
+        Diamond, Emerald, Minium Dust 8, 192
+        Diamond Shovel 8, 200
+        Jukebox 8, 256
+        Diamond Sword 16, 388
+        Diamond Hoe 16, 392
+        Enchantment Table 16, 736
+        Gold Block 18, 432
+        Diamond Pickaxe, Diamond Axe 24, 584
+        Diamond Boots 32, 768
+        Diamond Helmet 40, 960
+        Diamond Leggings 57, 344
+        Diamond Chestplate 65, 536
+        Diamond Block 73, 728
+        Note 1:Cobblestone, Cobblestone Slab, Dead Bush, Fern, Tall
+        Grass, Dirt, Glass, Grass, Ice, Leaves, Mycelium, Netherrack, Sand, Snow, Stone, Stone Brick Stairs, Stone
+        Bricks, Stone Slab, Stone Stairs, Basalt, Basalt Brick, Basalt Cobblestone, Marble, Marble Brick, End Stone, Ash
+        Note 2:Charcoal, Crafting Table, Fence Gate, Mushroom(Red, Brown), Sapling, Wood, Sugarcane, Paper, Sugar, Egg
+        */
         //Получение не ванильных предметов (Item)Item.itemRegistry.getObject("lEnergyBucketItem");
         //if (item == Items.apple) return 1;
         //Итемы
