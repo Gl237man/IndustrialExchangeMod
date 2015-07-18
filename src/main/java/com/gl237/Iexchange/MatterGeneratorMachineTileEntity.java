@@ -57,6 +57,27 @@ public class MatterGeneratorMachineTileEntity extends TileEntity implements IInv
         }
     }
 
+    public boolean CanRemoveBucketLiquid(){
+        return FluidLevel>=1000;
+    }
+
+    public void RemoveBuckedLiquid()
+    {
+        FluidLevel-=1000;//Удаляем Ведерко Жидкоси
+        markDirty();//Маркируем что ентити изменился
+    }
+
+    public boolean CanAddBucketLiquid(){
+        return FluidLevel<=(getCapacity()-1000);
+    }
+
+    public void AddBuckedLiquid()
+    {
+        FluidLevel+=1000;//Добовляем Ведерко Жидкости
+        markDirty();//Маркируем что ентити изменился
+    }
+
+
     //Получение имени инвентаря
     @Override
     public String getInventoryName() {

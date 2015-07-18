@@ -333,6 +333,26 @@ public class SFLEGeneratorMachieTileEntity extends TileEntity implements IInvent
 
     }
 
+    public boolean CanRemoveBucketLiquid(){
+        return FluidLevel>=1000;
+    }
+
+    public void RemoveBuckedLiquid()
+    {
+        FluidLevel-=1000;//Удаляем Ведерко Жидкоси
+        markDirty();//Маркируем что ентити изменился
+    }
+
+    public boolean CanAddBucketLiquid(){
+        return FluidLevel<=(getCapacity()-1000);
+    }
+
+    public void AddBuckedLiquid()
+    {
+        FluidLevel+=1000;//Добовляем Ведерко Жидкости
+        markDirty();//Маркируем что ентити изменился
+    }
+
     //Заливка конкретной жидкости
     @Override
     public int fill(ForgeDirection from, FluidStack fluidStack, boolean doFill) {

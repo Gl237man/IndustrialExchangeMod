@@ -1,5 +1,6 @@
 package com.gl237.Iexchange;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -9,6 +10,7 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -42,7 +44,40 @@ public class MatterGeneratorMachineBlock extends BlockContainer{
         {
             return false;
         }
+        ItemStack current = player.inventory.getCurrentItem();
+        if (current != null) {//Если Руки не пустые убрав эту проверку получаем краш при использовании
+            if (current.getItem() == Items.bucket)//При клике пустым ведром
+            {
+                MatterGeneratorMachineTileEntity MachinetileEntity = (MatterGeneratorMachineTileEntity) world.getTileEntity(x, y, z);
+                if (MachinetileEntity.CanRemoveBucketLiquid()) {
+                    ItemStack fullBuket = new ItemStack(GameRegistry.findItem("industrialexchange", "lMatterBucketItem"));//Создаем Ведро жидкости
+                    player.inventory.addItemStackToInventory(fullBuket);//Даем его игроку
+                    //Отбираем пустое ведро у игрока
+                    current.stackSize--;
+                    if (current.stackSize == 0)
+                        current = null;
+                    //удаляем ведро жидкости из TileEtity
+                    MachinetileEntity.RemoveBuckedLiquid();
+                }
+                return true;
+            }
 
+            if (current.getItem() == GameRegistry.findItem("industrialexchange", "lMatterBucketItem"))//При клике Ведром энергии
+            {
+                MatterGeneratorMachineTileEntity MachinetileEntity = (MatterGeneratorMachineTileEntity) world.getTileEntity(x, y, z);
+                if (MachinetileEntity.CanAddBucketLiquid()) {
+                    ItemStack EmtyBuket = new ItemStack(Items.bucket);//Создаем Пустое Ведро
+                    player.inventory.addItemStackToInventory(EmtyBuket);//Даем его игроку
+                    //Отбираем Полное ведро у игрока
+                    current.stackSize--;
+                    if (current.stackSize == 0)
+                        current = null;
+                    //Добовляем ведро жидкости из TileEtity
+                    MachinetileEntity.AddBuckedLiquid();
+                }
+                return true;
+            }
+        }
         player.openGui(IexchangeMod.instance, 1, world, x, y, z);//Открыть гуи с индексом Один
         return true;
     }

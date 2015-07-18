@@ -16,7 +16,7 @@ public class MatterValueCalculator {
 
     public static int GetMatterValue(ItemStack itemStack)
     {
-        //Получение не ванильных предметов (Item)Item.itemRegistry.getObject("wooden_shovel");
+        //Получение не ванильных предметов (Item)Item.itemRegistry.getObject("lEnergyBucketItem");
         //if (itemStack.getItem() == Items.apple) return 1;
         if (itemStack.getItem() == Items.iron_shovel) return 0;
         if (itemStack.getItem() == Items.iron_pickaxe) return 0;
