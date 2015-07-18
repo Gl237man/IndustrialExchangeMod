@@ -6,4 +6,4 @@ tile.LMatterFluidB.name=Liquid Matter
 item.lEnergyBucketItem.name=Energy Bucket
 item.lMatterBucketItem.name=Matter Bucket
 tile.sFLEGeneratorMachieBlock.name=Liquid Energy Extractor
-tile.matterGeneratorMachineBlock.name=Liquid Matter Generator
+tile.matterGeneratorMachieBlock.name=Liquid Matter Generator
